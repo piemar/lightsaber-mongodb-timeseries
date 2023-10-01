@@ -1,70 +1,106 @@
-# Getting Started with Create React App
+Certainly! Here's the updated README with the SketchPicker removed and the first paragraph describing the application's purpose as showcasing MongoDB's timeseries collection capabilities by storing device motion data:
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Lightsaber Motion Control
 
-## Available Scripts
+Lightsaber Motion Control is a web application designed to showcase the timeseries collection capabilities of MongoDB by storing precise device motion data. The frontend is built with React, and the backend is implemented using Flask. This repository contains both the frontend and backend code.
 
-In the project directory, you can run:
+## Requirements
 
-### `npm start`
+- Node.js and npm or yarn for the frontend.
+- Python for the backend.
+- MongoDB Atlas for precise data storage.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## lightsaber-frontend
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The `lightsaber-frontend` is responsible for displaying the lightsaber interface and capturing detailed device motion data to dynamically change the lightsaber's color in real-time.
 
-### `npm test`
+### What the Frontend Does
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. **User Interface**: The frontend presents an engaging user interface featuring a virtual lightsaber.
 
-### `npm run build`
+2. **Device Orientation**: It utilizes the `window.addEventListener('deviceorientation', handleOrientation)` to capture precise data from the device's gyroscope and accelerometer. This data includes information about the device's orientation in three dimensions: alpha (rotation around the z-axis), beta (rotation around the x-axis), and gamma (rotation around the y-axis).
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3. **Color Control**: The alpha value from the device orientation data is meticulously mapped to control the hue of the lightsaber's color. As the user moves their device, the lightsaber's color dynamically changes to reflect the device's orientation.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+4. **Audio Feedback**: To enhance the user experience, audio feedback is provided when the lightsaber's color changes. An audio file (`lightsaber.mp3`) is played using the Howler library.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+5. **Pulsating Animation**: To make the lightsaber's color change more visually captivating, a pulsating animation is applied whenever the color changes.
 
-### `npm run eject`
+6. **Data Transmission**: Device orientation data is continuously sent to the backend server via a Flask REST endpoint (`/data`) in the form of a JSON object.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Setup
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. Clone this repository:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+   ```bash
+   git clone <repository-url>
+   ```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+2. Navigate to the `lightsaber-frontend` directory:
 
-## Learn More
+   ```bash
+   cd lightsaber-frontend
+   ```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+3. Install the required dependencies using npm or yarn:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
-### Code Splitting
+4. Start the frontend application:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+   ```bash
+   npm start
+   # or
+   yarn start
+   ```
 
-### Analyzing the Bundle Size
+5. Open your web browser and go to `http://localhost:3000` to experience the Lightsaber Motion Control interface.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## lightsaber-backend
 
-### Making a Progressive Web App
+The `lightsaber-backend` is responsible for receiving the intricate device orientation data from the frontend and storing it systematically in a MongoDB database.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### What the Backend Does
 
-### Advanced Configuration
+1. **Flask Web Server**: The backend is implemented using Flask, a Python web framework. It establishes a Flask web server that listens for incoming requests on `http://localhost:5000`.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+2. **MongoDB Atlas Integration**: The backend is seamlessly integrated with MongoDB Atlas, a cloud-based database service. It connects to a MongoDB database hosted on Atlas using the MongoClient.
 
-### Deployment
+3. **Data Reception**: The backend provides a single REST endpoint (`/data`) that expects incoming POST requests with detailed JSON data. This endpoint diligently receives the device orientation data transmitted by the frontend.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+4. **Data Storage**: The received device orientation data is systematically stored in a MongoDB collection named `timeseries`. Each data point is meticulously associated with a timestamp, allowing for precise tracking of when the data was received.
 
-### `npm run build` fails to minify
+5. **CORS Configuration**: Cross-Origin Resource Sharing (CORS) is configured to facilitate secure communication with the frontend, even if the frontend is hosted on a different domain or port.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+6. **Response**: Upon successfully receiving and storing the data, the endpoint responds promptly with a confirmation message, indicating that the data has been received and stored accurately.
+
+### Setup
+
+1. Ensure that Python is installed on your system.
+
+2. Navigate to the `lightsaber-backend` directory:
+
+   ```bash
+   cd lightsaber-backend
+   ```
+
+3. Install the required Python dependencies using pip:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. Start the backend server:
+
+   ```bash
+   python app.py
+   ```
+
+The backend server will be operational and accessible at `http://localhost:5000`.
+
+
+Feel free to customize and extend this project as needed to create an immersive and interactive lightsaber motion control experience for showcasing MongoDB's timeseries collection capabilities. May the Force be with you! 🌌🚀

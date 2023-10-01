@@ -5,3 +5,5 @@ face_recognition
 Pillow
 pymongo
 flask-cors
+python-dotenv
+jsonify
