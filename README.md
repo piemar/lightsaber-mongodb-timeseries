@@ -1,5 +1,3 @@
-Certainly! Here's the updated README with the SketchPicker removed and the first paragraph describing the application's purpose as showcasing MongoDB's timeseries collection capabilities by storing device motion data:
-
 # Lightsaber Motion Control
 
 Lightsaber Motion Control is a web application designed to showcase the timeseries collection capabilities of MongoDB by storing precise device motion data. The frontend is built with React, and the backend is implemented using Flask. This repository contains both the frontend and backend code.
