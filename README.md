@@ -95,10 +95,12 @@ The `lightsaber-backend` is responsible for receiving the intricate device orien
 4. Start the backend server:
 
    ```bash
-   python app.py
+   python3 app.py
    ```
 
 The backend server will be operational and accessible at `http://localhost:5000`.
 
+### TErraform
+You can deploy the solution to a AWS EC2 Instance so the demo is accessible
 
 Feel free to customize and extend this project as needed to create an immersive and interactive lightsaber motion control experience for showcasing MongoDB's timeseries collection capabilities. May the Force be with you! 🌌🚀
