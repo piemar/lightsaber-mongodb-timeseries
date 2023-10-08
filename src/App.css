@@ -1,0 +1,91 @@
+
+.lightsaber {
+  /* Your existing styles */
+  width: 100%;
+  height: 200pc;
+  margin: 40px auto;
+  background-color: #FF0000;
+  transition: background-color 0.2s ease;
+  animation: pulsate 1s infinite alternate;
+}
+#lightsaber-container {
+  width: 100%;
+  height: 500px; /* Adjust the height as needed */
+}
+@keyframes pulsate {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+.box-container {
+  perspective: 1000px; /* Define the perspective for the 3D effect */
+  width: 150px; /* Set the width of the container */
+  height: 250px; /* Set the height of the container */
+  margin: 0 auto; /* Center the container horizontally */
+}
+
+/* Style for the 3D box */
+.box {
+  width: 100%; /* Set the width of the box to fill the container */
+  height: 100%; /* Set the height of the box to fill the container */
+  background-color: #007bff; /* Set the background color of the box */
+  transform-style: preserve-3d; /* Preserve 3D transformations */
+  transition: transform 0.3s ease-in-out; /* Add a smooth transition effect */
+}
+
+.indicatorDot{
+  width: 50px;
+  height: 50px;
+  background-color: #0dc73f;
+  border-radius: 50%;
+  position:fixed;
+  z-index: 100;
+}
+
+.boundary {
+  position: relative; 
+  border: 10px solid rgb(101, 238, 9); 
+  width: 90%; 
+  height: 90vh; 
+  margin: 5% auto;
+  box-sizing: border-box;
+  background-position: center;
+  background-image: url('./../public/dotbackground.jpeg');
+}
+
+.div-with-bg {
+  /* Set the div's dimensions */
+  width: 90vc;
+  height: 60vh;
+
+  /* Set the background image */
+
+  /* Position the container */
+  position: relative;
+  padding: 10px; /* Optional: provides some spacing */
+}
+
+.div-with-bg .content {
+  /* Position the content at the bottom */
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%); /* Centers content horizontally */
+}
+.App {
+  background-image: url('./../public/start_app_background.jpeg');
+  background-size: cover; /* Ensure the background image covers the entire element */
+  background-position: center; /* Center the background image */
+  background-repeat: no-repeat; /* Do not repeat the background image */
+  min-height: 100vh; /* Make sure the element at least fills the viewport height */
+  width: 100vw; /* Make sure the element fills the viewport width */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+}
