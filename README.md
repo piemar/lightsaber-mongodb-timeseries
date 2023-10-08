@@ -106,7 +106,7 @@ npm run start:https
 
 <img src="docs/start_screen.png" width="20%" height="20%">
 
-2. Balancing a ball, to get higher level on lightsaber, user will collect points if within gamefield boundaries, If not will loose points. All this data is stored in a time series collection.
+2. Balancing a ball, to get higher level on lightsaber, user will collect points if within gamefield boundaries, If not will loose points. All this data is stored in a time series collection. To run on `APPLE` devices the user will neeed to request access to sensors by clicking on `GET ACCELERATOR PERMISSIONS`. 
 
 <img src="docs/ball_game.png" width="20%" height="20%">
 
