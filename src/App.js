@@ -258,11 +258,11 @@ function App() {
       )}
       {dotPanelGamePlay && (
         <div className="boundary" style={{ borderColor: `${borderStateColor}`}}>
-          <Typography variant="h6" style={{ textAlign: "center", color: "Green" }}>
-            <div>Time Remaining: {counter}</div>
+          <Typography variant="h6" style={{ textAlign: "center", color: "Green"}}>
+            <div style={{animation: "pulsate 0.5s infinite alternate",marginTop:"30px"}}>Time Remaining: {counter}</div>
 
             <div className='div-with-bg'>
-              <div className='content'>Light Saber Points: {lightSaberPoints}</div>
+              <div className='content' style={{animation: "pulsate 0.5s infinite alternate"}}>Light Saber Points: {lightSaberPoints}</div>
             </div>
             <Button id="iosAccessSensor" onClick={askForSensorAccess} style={{ height: "50px" }}>Get Accelerometer Permissions</Button>
           </Typography>
