@@ -1,14 +1,10 @@
-// This function is the endpoint's request handler.
-exports = function({ query, headers, body}, response) {
-    // Data can be extracted from the request as follows:
+exports =  function({ query, headers, body}, response){
+  // This default function will get a value and find a document in MongoDB
+  // To see plenty more examples of what you can do with functions see: 
+  // https://www.mongodb.com/docs/atlas/app-services/functions/
 
-    collection=context.services.get("mongodb-atlas").db("starwars").collection("timeseries");
-    const search_results=collection.find(
-        {
-          "email": query.email
-          }
-        ).toArray();
-        
-    const results = search_results
-    return results[0]        
+  const queryPredicate={ "email": query.email}
+    results = context.services.get("mongodb-atlas").db("starwars").collection("timeseries").find(queryPredicate).toArray();
+
+  return results;
 };
