@@ -42,6 +42,7 @@
   width: 50px;
   height: 50px;
   background-color: #0dc73f;
+  animation: pulsate 0.5s infinite alternate;
   border-radius: 50%;
   position:fixed;
   z-index: 100;
@@ -74,7 +75,7 @@
   /* Position the content at the bottom */
   position: absolute;
   bottom: 0;
-  left: 50%;
+  left: 18%;
   transform: translateX(-50%); /* Centers content horizontally */
 }
 .App {
