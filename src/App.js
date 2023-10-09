@@ -13,6 +13,7 @@ function App() {
   var vy = 0.0;
   const [audio] = useState(new Howl({ src: ['/lightsaber.mp3'] }));
   var updateRate = 1 / 500; // Sensor refresh rate
+  const [borderStateColor,setBorderStateColor]=useState("green");
   const [lightSaberPoints, setLightSaberPoints] = useState(500);
   const [email, setEmail] = useState(''); // State for email input
   const [showLightsaber, setShowLightsaber] = useState(false); // State to control lightsaber visibility
@@ -98,10 +99,13 @@ function App() {
 
 
   const dotWithinBorders = (px, py) => {
-    if (px > 5 && px < 95 && py > 5 && py < 95) {
+    if (px > 5 && px < 80 && py > 5 && py < 94) {
+      setBorderStateColor("green");
       return true;
+
     } else {
       setLightSaberPoints((prevLightSaberPoints) => prevLightSaberPoints - 20)
+      setBorderStateColor("red");
       return false;
     }
   }
@@ -176,11 +180,29 @@ function App() {
   };
 
   const askForSensorAccess = () => {
-    DeviceMotionEvent.requestPermission().then(response => {
-      if (response === 'granted') {
-      }
-    });
-  }
+    if (typeof DeviceMotionEvent.requestPermission === 'function') { // Check if the API exists
+        DeviceMotionEvent.requestPermission()
+            .then(response => {
+                if (response === 'granted') {
+                    // Permission granted. You can now add your event listeners here
+                    window.addEventListener('devicemotion', (event) => {
+                        // Handle the device motion event here
+                        console.log(event);
+                    });
+                } else {
+                    console.log('Device motion permission not granted');
+                }
+            })
+            .catch(console.error); // Handle any errors that occurred during the request
+    } else {
+        // The browser does not support the requestPermission API, assume permission is already granted
+        window.addEventListener('devicemotion', (event) => {
+            // Handle the device motion event here
+            console.log(event);
+        });
+    }
+};
+
 
   useEffect(() => {
     let counterInterval;
@@ -235,7 +257,7 @@ function App() {
         </Container>
       )}
       {dotPanelGamePlay && (
-        <div className="boundary">
+        <div className="boundary" style={{ borderColor: `${borderStateColor}`}}>
           <Typography variant="h6" style={{ textAlign: "center", color: "Green" }}>
             <div>Time Remaining: {counter}</div>
 
