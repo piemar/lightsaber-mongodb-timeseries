@@ -83,6 +83,11 @@ source env.var
 ./deploy.sh
 ```
 
+### Enable Hosting on App Services
+
+You need to manually enable hosting:
+https://www.mongodb.com/docs/atlas/app-services/hosting/enable-hosting/
+
 ### Access the application 
 You can now access the application from the endpoint described, in app/hosting/config.json   
 
