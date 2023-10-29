@@ -26,7 +26,7 @@ function App() {
   
   const [replayData, setReplayData] = useState([]); // State to store retrieved replay data
   const [boxRotation, setBoxRotation] = useState({ x: 0, y: 0, z: 0, hue: 0 }); // State to store 3D box rotation angles
-  const [counter, setCounter] = useState(15);
+  const [counter, setCounter] = useState(30);
   const [dotPanelGamePlay, setDotPanelGamePlay] = useState(false);
   let audio;
   const playSound = () => {
@@ -114,7 +114,7 @@ function App() {
     if (Math.abs(acceleration.x) > threshold || Math.abs(acceleration.y) > threshold || Math.abs(acceleration.z) > threshold) {
       setSwoshing(true);
       playSound();
-      sendOrientationData({ deviceInfo:deviceInfo,alpha: event.alpha, beta: event.beta, gamma: event.gamma, hue: hue, lightSaberPoints: lightSaberPoints, indicatorDotPx: px, indicatorDotPy: py, accelerationLightSaber:{x:acceleration.x, y:acceleration.y,z:acceleration.z }});
+      sendOrientationData({ deviceInfo:deviceInfo,swosh:true, alpha: event.alpha, beta: event.beta, gamma: event.gamma, hue: hue, lightSaberPoints: lightSaberPoints, indicatorDotPx: px, indicatorDotPy: py, accelerationLightSaber:{x:acceleration.x, y:acceleration.y,z:acceleration.z }});
       
     }
     setSwoshing(false);
@@ -152,7 +152,7 @@ function App() {
 
     }
     if(isSwoshing===false){
-      sendOrientationData({ deviceInfo:deviceInfo,alpha: event.alpha, beta: event.beta, gamma: event.gamma, hue: hueValue, lightSaberPoints: lightSaberPoints, indicatorDotPx: px, indicatorDotPy: py, accelerationLightSaber:{x:lightSaberAcceleration.x, y:lightSaberAcceleration.y,z:lightSaberAcceleration.z }});
+      sendOrientationData({ deviceInfo:deviceInfo,swosh:false, alpha: event.alpha, beta: event.beta, gamma: event.gamma, hue: hueValue, lightSaberPoints: lightSaberPoints, indicatorDotPx: px, indicatorDotPy: py, accelerationLightSaber:{x:lightSaberAcceleration.x, y:lightSaberAcceleration.y,z:lightSaberAcceleration.z }});
     }
   };
 
@@ -277,7 +277,7 @@ function App() {
     return () => {
       clearInterval(counterInterval);
     };
-  }, [lightSaberAcceleration,counter, signUpForm, lightSaberPoints, showLightsaber]);
+  }, [counter, signUpForm, lightSaberPoints, showLightsaber]);
 
   return (
     <div className="App">
