@@ -11,12 +11,11 @@ function App() {
   var py = 50;
   var vx = 0.0; // Velocity x and y
   var vy = 0.0;
-  
+
   var updateRate = 1 / 500; // Sensor refresh rate
   const [multiplierPoints, setMultiplierPoints] = useState(1);
-  const [borderStateColor,setBorderStateColor]=useState("green");
-  const [lightSaberAcceleration, setLightSaberAcceleration] = useState({ x:0, y: 0, z: 0 }); 
-  const [isSwoshing, setSwoshing]=useState(false);
+  const [borderStateColor, setBorderStateColor] = useState("green");
+
   const [lightSaberPoints, setLightSaberPoints] = useState(500);
   const [email, setEmail] = useState(''); // State for email input
   const [showLightsaber, setShowLightsaber] = useState(false); // State to control lightsaber visibility
@@ -24,7 +23,7 @@ function App() {
   const [showReplay, setReplay] = useState(false); // State to control lightsaber visibility
   const [signUpForm, setSignUpForm] = useState(true); // State to control lightsaber visibility
   const [hue, setHue] = useState(0); // Initialize hue to 0
-  
+
   const [replayData, setReplayData] = useState([]); // State to store retrieved replay data
   const [boxRotation, setBoxRotation] = useState({ x: 0, y: 0, z: 0, hue: 0 }); // State to store 3D box rotation angles
   const [counter, setCounter] = useState(30);
@@ -33,9 +32,9 @@ function App() {
   const playSound = () => {
     if (audio === undefined) {
       audio = new Howl({
-          src: ['/lightsaber.mp3']
+        src: ['/lightsaber.mp3']
       });
-  }
+    }
     audio.play();
   };
   const userAgent = navigator.userAgent;
@@ -105,58 +104,59 @@ function App() {
       });
   };
 
-  const handleDeviceAcceleration = (event) => {
-    // Get acceleration data from device
-    const acceleration = event.accelerationIncludingGravity;
-    const threshold = 15;
-    // If acceleration is above threshold, play sound
-    
-    setLightSaberAcceleration({ x: acceleration.x, y: acceleration.y, z: acceleration.y });
-    if (Math.abs(acceleration.x) > threshold || Math.abs(acceleration.y) > threshold || Math.abs(acceleration.z) > threshold) {
-      setSwoshing(true);
-      playSound();
-      sendOrientationData({ deviceInfo:deviceInfo,swosh:true, alpha: event.alpha, beta: event.beta, gamma: event.gamma, hue: hue, lightSaberPoints: lightSaberPoints, indicatorDotPx: px, indicatorDotPy: py, accelerationLightSaber:{x:acceleration.x, y:acceleration.y,z:acceleration.z }});
-      
+  const handleDeviceMotion = (event) => {
+    var acceleration = "";
+    let hueValue = 0;
+    var lbswish = false;
+    if (event.accelerationIncludingGravity) {
+      // Get acceleration data from device
+      acceleration = event.accelerationIncludingGravity;
+      const threshold = 15;
+      // If acceleration is above threshold, play sound
+
+      if (Math.abs(acceleration.x) > threshold || Math.abs(acceleration.y) > threshold || Math.abs(acceleration.z) > threshold) {
+        lbswish = true;
+        playSound();
+      }
+
     }
-    setSwoshing(false);
+
+    if (typeof event.beta !== 'undefined' && typeof event.gamma !== 'undefined') {
+      const frontToBack_degrees = event.beta;
+      const leftToRight_degrees = event.gamma;
+      hueValue = (event.alpha + 360) % 360; // Ensure the hue is within 0-360 degrees
+      setHue(hueValue);
+
+      // Update velocity according to how tilted the phone is
+      // Since phones are narrower than they are long, double the increase to the x velocity
+      vx = vx + leftToRight_degrees * updateRate * 2;
+      vy = vy + frontToBack_degrees * updateRate;
+
+      // Update position and clip it to bounds
+      px = px + vx * .5;
+      if (px > 98 || px < 0) {
+        px = Math.max(0, Math.min(98, px)) // Clip px between 0-98
+        vx = 0;
+      }
+
+      py = py + vy * .5;
+      if (py > 98 || py < 0) {
+        py = Math.max(0, Math.min(98, py)) // Clip py between 0-98
+        vy = 0;
+      }
+
+      const dot = document.getElementsByClassName("indicatorDot")[0]
+      if (dot !== undefined) {
+        dot.setAttribute('style', "left:" + (px) + "%;" +
+          "top:" + (py) + "%;");
+        dotWithinBorders(px, py);
+
+      }
+    }
+    sendOrientationData({ deviceInfo: deviceInfo, swosh: lbswish, orientation: { alpha: event.alpha, beta: event.beta, gamma: event.gamma, hue: hueValue }, ballGame: { lightSaberPoints: lightSaberPoints, indicatorDotPx: px, indicatorDotPy: py }, acceleration: { x: acceleration.x, y: acceleration.y, z: acceleration.z } });
+
+
   };
-  const handleOrientation = (event) => {
-    // Expose each orientation angle in a more readable way
-    const frontToBack_degrees = event.beta;
-    const leftToRight_degrees = event.gamma;
-    const hueValue = (event.alpha + 360) % 360; // Ensure the hue is within 0-360 degrees
-    setHue(hueValue);
-
-    // Update velocity according to how tilted the phone is
-    // Since phones are narrower than they are long, double the increase to the x velocity
-    vx = vx + leftToRight_degrees * updateRate * 2;
-    vy = vy + frontToBack_degrees * updateRate;
-
-    // Update position and clip it to bounds
-    px = px + vx * .5;
-    if (px > 98 || px < 0) {
-      px = Math.max(0, Math.min(98, px)) // Clip px between 0-98
-      vx = 0;
-    }
-
-    py = py + vy * .5;
-    if (py > 98 || py < 0) {
-      py = Math.max(0, Math.min(98, py)) // Clip py between 0-98
-      vy = 0;
-    }
-
-    const dot = document.getElementsByClassName("indicatorDot")[0]
-    if (dot !== undefined) {
-      dot.setAttribute('style', "left:" + (px) + "%;" +
-        "top:" + (py) + "%;");
-      dotWithinBorders(px, py);
-
-    }
-    if(isSwoshing===false){
-      sendOrientationData({ deviceInfo:deviceInfo,swosh:false, alpha: event.alpha, beta: event.beta, gamma: event.gamma, hue: hueValue, lightSaberPoints: lightSaberPoints, indicatorDotPx: px, indicatorDotPy: py, accelerationLightSaber:{x:lightSaberAcceleration.x, y:lightSaberAcceleration.y,z:lightSaberAcceleration.z }});
-    }
-  };
-
 
   const dotWithinBorders = (px, py) => {
     if (px > 5 && px < 80 && py > 5 && py < 94) {
@@ -164,7 +164,7 @@ function App() {
       return true;
 
     } else {
-      setLightSaberPoints((prevLightSaberPoints) => prevLightSaberPoints )
+      setLightSaberPoints((prevLightSaberPoints) => prevLightSaberPoints)
       setBorderStateColor("red");
       setMultiplierPoints(1);
       return false;
@@ -181,11 +181,11 @@ function App() {
       setDotPanelGamePlay(true);
       setShowLightsaber(false);  // Hide the lightsaber initially                      
       if (window.DeviceMotionEvent === undefined) {
-        window.addEventListener('deviceorientation', handleOrientation);
+        window.addEventListener('deviceorientation', handleDeviceMotion);
       }
       else {
-        window.addEventListener("devicemotion", handleDeviceAcceleration, true);
-        window.addEventListener('deviceorientation', handleOrientation);
+        window.addEventListener("devicemotion", handleDeviceMotion, true);
+        window.addEventListener('deviceorientation', handleDeviceMotion);
       }
     } else {
       alert('Please provide an email address.');
@@ -193,8 +193,8 @@ function App() {
   };
 
   const handleReplay = () => {
-    window.removeEventListener("devicemotion", handleDeviceAcceleration, true);
-    window.removeEventListener('deviceorientation', handleOrientation);
+    window.removeEventListener("devicemotion", handleDeviceMotion, true);
+    window.removeEventListener('deviceorientation', handleDeviceMotion);
     setShowLightsaber(false);
     setBoxContainer(true);
     setDotPanelGamePlay(false);
@@ -210,7 +210,7 @@ function App() {
         console.error('Error retrieving replay data:', error);
       });
   };
-  const resetBoxRotation = ()=>{
+  const resetBoxRotation = () => {
     const rotationZ = `rotateZ(0deg)`;
     const rotationX = `rotateX(0deg)`;
     const rotationY = `rotateY(0deg)`;
@@ -221,9 +221,9 @@ function App() {
   // Function to replay recorded device orientation
   const updateBoxRotation = () => {
     resetBoxRotation();
-    const orientationData=replayData;
+    const orientationData = replayData;
     orientationData.forEach(item => {
-      const { alpha, beta, gamma, hue } = item;
+      const { alpha, beta, gamma, hue } = item.orientation;
       // Calculate the rotation angles based on orientation data (adjust as needed)
       const rotationZ = `rotateZ(${alpha}deg)`;
       const rotationX = `rotateX(${beta}deg)`;
@@ -239,27 +239,27 @@ function App() {
 
   const askForSensorAccess = () => {
     if (typeof DeviceMotionEvent.requestPermission === 'function') { // Check if the API exists
-        DeviceMotionEvent.requestPermission()
-            .then(response => {
-                if (response === 'granted') {
-                    // Permission granted. You can now add your event listeners here
-                    window.addEventListener('devicemotion', (event) => {
-                        // Handle the device motion event here
-                        console.log(event);
-                    });
-                } else {
-                    console.log('Device motion permission not granted');
-                }
-            })
-            .catch(console.error); // Handle any errors that occurred during the request
+      DeviceMotionEvent.requestPermission()
+        .then(response => {
+          if (response === 'granted') {
+            // Permission granted. You can now add your event listeners here
+            window.addEventListener('devicemotion', (event) => {
+              // Handle the device motion event here
+              console.log(event);
+            });
+          } else {
+            console.log('Device motion permission not granted');
+          }
+        })
+        .catch(console.error); // Handle any errors that occurred during the request
     } else {
-        // The browser does not support the requestPermission API, assume permission is already granted
-        window.addEventListener('devicemotion', (event) => {
-            // Handle the device motion event here
-            console.log(event);
-        });
+      // The browser does not support the requestPermission API, assume permission is already granted
+      window.addEventListener('devicemotion', (event) => {
+        // Handle the device motion event here
+        console.log(event);
+      });
     }
-};
+  };
 
 
   useEffect(() => {
@@ -268,8 +268,8 @@ function App() {
       counterInterval = setInterval(() => {
         setCounter((prevCounter) => prevCounter - 1);
         setMultiplierPoints((prevMultiplierPoints) => prevMultiplierPoints + 1)
-        if(borderStateColor==="green"){
-          setLightSaberPoints((prevLightSaberPoints) => prevLightSaberPoints + 60*multiplierPoints)
+        if (borderStateColor === "green") {
+          setLightSaberPoints((prevLightSaberPoints) => prevLightSaberPoints + 60 * multiplierPoints)
         }
       }, 1000);
     } else if (counter <= 0) {
@@ -318,12 +318,12 @@ function App() {
         </Container>
       )}
       {dotPanelGamePlay && (
-        <div className="boundary" style={{ borderColor: `${borderStateColor}`}}>
-          <Typography variant="h6" style={{ textAlign: "center", color: "Green"}}>
-            <div style={{animation: "pulsate 0.5s infinite alternate",marginTop:"30px"}}>Time Remaining: {counter}</div>
+        <div className="boundary" style={{ borderColor: `${borderStateColor}` }}>
+          <Typography variant="h6" style={{ textAlign: "center", color: "Green" }}>
+            <div style={{ animation: "pulsate 0.5s infinite alternate", marginTop: "30px" }}>Time Remaining: {counter}</div>
 
             <div className='div-with-bg'>
-              <div className='content' style={{animation: "pulsate 0.5s infinite alternate"}}>Light Saber Points: {lightSaberPoints}</div>
+              <div className='content' style={{ animation: "pulsate 0.5s infinite alternate" }}>Light Saber Points: {lightSaberPoints}</div>
             </div>
             <Button id="iosAccessSensor" onClick={askForSensorAccess} style={{ height: "50px" }}>Get Accelerometer Permissions</Button>
           </Typography>
