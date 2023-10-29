@@ -11,9 +11,11 @@ function App() {
   var py = 50;
   var vx = 0.0; // Velocity x and y
   var vy = 0.0;
-  const [audio] = useState(new Howl({ src: ['/lightsaber.mp3'] }));
+  
   var updateRate = 1 / 500; // Sensor refresh rate
   const [borderStateColor,setBorderStateColor]=useState("green");
+  const [lightSaberAcceleration, setLightSaberAcceleration] = useState({ x:0, y: 0, z: 0 }); 
+  const [isSwoshing, setSwoshing]=useState(false);
   const [lightSaberPoints, setLightSaberPoints] = useState(500);
   const [email, setEmail] = useState(''); // State for email input
   const [showLightsaber, setShowLightsaber] = useState(false); // State to control lightsaber visibility
@@ -21,11 +23,61 @@ function App() {
   const [showReplay, setReplay] = useState(false); // State to control lightsaber visibility
   const [signUpForm, setSignUpForm] = useState(true); // State to control lightsaber visibility
   const [hue, setHue] = useState(0); // Initialize hue to 0
-  const [isPulsating, setIsPulsating] = useState(false);
+  
   const [replayData, setReplayData] = useState([]); // State to store retrieved replay data
   const [boxRotation, setBoxRotation] = useState({ x: 0, y: 0, z: 0, hue: 0 }); // State to store 3D box rotation angles
   const [counter, setCounter] = useState(15);
   const [dotPanelGamePlay, setDotPanelGamePlay] = useState(false);
+  let audio;
+  const playSound = () => {
+    if (audio === undefined) {
+      audio = new Howl({
+          src: ['/lightsaber.mp3']
+      });
+  }
+    audio.play();
+  };
+  const userAgent = navigator.userAgent;
+  const getDevice = () => {
+    if (/android/i.test(userAgent)) {
+      return 'Android';
+    }
+
+    if (/iPhone/i.test(userAgent)) {
+      return 'iPhone';
+    }
+
+    return 'Unknown Device';
+  };
+
+  const getBrowser = () => {
+    if (/chrome/i.test(userAgent)) {
+      return 'Chrome';
+    }
+
+    if (/safari/i.test(userAgent) && !/chrome/i.test(userAgent)) {
+      return 'Safari';
+    }
+
+    if (/firefox/i.test(userAgent)) {
+      return 'Firefox';
+    }
+
+    if (/msie|trident/i.test(userAgent)) {
+      return 'Internet Explorer';
+    }
+
+    if (/edge/i.test(userAgent)) {
+      return 'Edge';
+    }
+
+    return 'Unknown Browser';
+  };
+
+  const deviceInfo = {
+    deviceType: getDevice(),
+    browserType: getBrowser()
+  };
 
   const sendOrientationData = (data) => {
     // Include email in the data to be sent
@@ -57,9 +109,15 @@ function App() {
     const acceleration = event.accelerationIncludingGravity;
     const threshold = 15;
     // If acceleration is above threshold, play sound
+    
+    setLightSaberAcceleration({ x: acceleration.x, y: acceleration.y, z: acceleration.y });
     if (Math.abs(acceleration.x) > threshold || Math.abs(acceleration.y) > threshold || Math.abs(acceleration.z) > threshold) {
+      setSwoshing(true);
       playSound();
+      sendOrientationData({ deviceInfo:deviceInfo,alpha: event.alpha, beta: event.beta, gamma: event.gamma, hue: hue, lightSaberPoints: lightSaberPoints, indicatorDotPx: px, indicatorDotPy: py, accelerationLightSaber:{x:acceleration.x, y:acceleration.y,z:acceleration.z }});
+      
     }
+    setSwoshing(false);
   };
   const handleOrientation = (event) => {
     // Expose each orientation angle in a more readable way
@@ -93,8 +151,9 @@ function App() {
       dotWithinBorders(px, py);
 
     }
-
-    sendOrientationData({ alpha: event.alpha, beta: event.beta, gamma: event.gamma, hue: hueValue, lightSaberPoints: lightSaberPoints, indicatorDotPx: px, indicatorDotPy: py });
+    if(isSwoshing===false){
+      sendOrientationData({ deviceInfo:deviceInfo,alpha: event.alpha, beta: event.beta, gamma: event.gamma, hue: hueValue, lightSaberPoints: lightSaberPoints, indicatorDotPx: px, indicatorDotPy: py, accelerationLightSaber:{x:lightSaberAcceleration.x, y:lightSaberAcceleration.y,z:lightSaberAcceleration.z }});
+    }
   };
 
 
@@ -109,9 +168,6 @@ function App() {
       return false;
     }
   }
-  const playSound = () => {
-    audio.play();
-  };
   const handleSubmit = (e) => {
     e.preventDefault();
     setReplay(true);
@@ -221,7 +277,7 @@ function App() {
     return () => {
       clearInterval(counterInterval);
     };
-  }, [counter, signUpForm, lightSaberPoints, showLightsaber]);
+  }, [lightSaberAcceleration,counter, signUpForm, lightSaberPoints, showLightsaber]);
 
   return (
     <div className="App">

@@ -58,6 +58,17 @@
   background-position: center;
   background-image: url('./../public/dotbackground.jpeg');
 }
+.holdgameplay {
+  position: relative; 
+  border: 10px solid rgb(101, 238, 9); 
+  width: 90%; 
+  height: 90vh; 
+  margin: 5% auto;
+  box-sizing: border-box;
+  background-position: center;
+  background-image: url('./../public/hold_gameplay.png');
+}
+
 
 .div-with-bg {
   /* Set the div's dimensions */
@@ -75,7 +86,7 @@
   /* Position the content at the bottom */
   position: absolute;
   bottom: 0;
-  left: 18%;
+  left: 12%;
   transform: translateX(-50%); /* Centers content horizontally */
 }
 .App {
