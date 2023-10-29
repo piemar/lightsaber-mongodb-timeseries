@@ -13,6 +13,7 @@ function App() {
   var vy = 0.0;
   
   var updateRate = 1 / 500; // Sensor refresh rate
+  const [multiplierPoints, setMultiplierPoints] = useState(1);
   const [borderStateColor,setBorderStateColor]=useState("green");
   const [lightSaberAcceleration, setLightSaberAcceleration] = useState({ x:0, y: 0, z: 0 }); 
   const [isSwoshing, setSwoshing]=useState(false);
@@ -163,8 +164,9 @@ function App() {
       return true;
 
     } else {
-      setLightSaberPoints((prevLightSaberPoints) => prevLightSaberPoints - 20)
+      setLightSaberPoints((prevLightSaberPoints) => prevLightSaberPoints )
       setBorderStateColor("red");
+      setMultiplierPoints(1);
       return false;
     }
   }
@@ -265,7 +267,10 @@ function App() {
     if (counter > 0 && !signUpForm) {  // Ensure counter only starts if the signUpForm is not visible
       counterInterval = setInterval(() => {
         setCounter((prevCounter) => prevCounter - 1);
-        setLightSaberPoints((prevLightSaberPoints) => prevLightSaberPoints + 60)
+        setMultiplierPoints((prevMultiplierPoints) => prevMultiplierPoints + 1)
+        if(borderStateColor==="green"){
+          setLightSaberPoints((prevLightSaberPoints) => prevLightSaberPoints + 60*multiplierPoints)
+        }
       }, 1000);
     } else if (counter <= 0) {
       clearInterval(counterInterval);
@@ -277,7 +282,7 @@ function App() {
     return () => {
       clearInterval(counterInterval);
     };
-  }, [counter, signUpForm, lightSaberPoints, showLightsaber]);
+  }, [counter, signUpForm, lightSaberPoints, showLightsaber, multiplierPoints, borderStateColor]);
 
   return (
     <div className="App">
