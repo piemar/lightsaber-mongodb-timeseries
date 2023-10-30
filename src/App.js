@@ -38,7 +38,7 @@ function App() {
         src: ['/lightsaber.mp3']
       });
     }
-    
+
     audio.play();
   };
   const userAgent = navigator.userAgent;
@@ -108,11 +108,11 @@ function App() {
       });
   };
 
-  const updateHealth = (h)=>{
-    if (h>0){
-      return (h-1);
-    }else{
-      handleReplay();      
+  const updateHealth = (h) => {
+    if (h > 0) {
+      return (h - 1);
+    } else {
+      handleReplay();
 
       return 0;
     }
@@ -121,8 +121,8 @@ function App() {
     var acceleration = "";
     let hueValue = 0;
     var lbswish = false;
-    
-    
+
+
     if (event.accelerationIncludingGravity) {
       // Get acceleration data from device
       acceleration = event.accelerationIncludingGravity;
@@ -130,8 +130,8 @@ function App() {
       // If acceleration is above threshold, play sound
       if (Math.abs(acceleration.x) > threshold || Math.abs(acceleration.y) > threshold || Math.abs(acceleration.z) > threshold) {
         lbswish = true;
-        playSound();             
-        setHealth((prevHealth) => updateHealth(prevHealth)  );
+        playSound();
+        setHealth((prevHealth) => updateHealth(prevHealth));
       }
 
     }
@@ -297,29 +297,29 @@ function App() {
     return () => {
       clearInterval(counterInterval);
     };
-  },[ health,showBoxContainer,counter, signUpForm, lightSaberPoints, showLightsaber, multiplierPoints, borderStateColor]);
+  }, [health, showBoxContainer, counter, signUpForm, lightSaberPoints, showLightsaber, multiplierPoints, borderStateColor]);
 
   return (
-    <div className="App">    
-    {showLightsaber && (  
-      <DarthVader className="DarthVader" health={health}/>
-    )}
+    <div className="App">
+      {showLightsaber && (
+        <DarthVader className="DarthVader" health={health} />
+      )}
       <CssBaseline />
 
 
 
       {showLightsaber && (
-          
-        <div className={`lightsaber 'pulsate'}`} style={{ backgroundColor: `hsl(${hue}, 100%, 50%)`, width: '100vw', height: '90vh' }}>          
+
+        <div className={`lightsaber 'pulsate'}`} style={{ backgroundColor: `hsl(${hue}, 100%, 50%)`, width: '100vw', height: '90vh' }}>
         </div>
 
       )}
       {signUpForm && (
-        
-        <Container component="main" maxWidth="xs">          
+
+        <Container component="main" maxWidth="xs">
           <Typography component="h1" variant="h5" style={{ textAlign: "center" }}>
             Lightsaber Lores of MongoDB Time Series
-            
+
           </Typography>
           <form onSubmit={handleSubmit}>
             <TextField
@@ -339,12 +339,12 @@ function App() {
         </Container>
       )}
       {dotPanelGamePlay && (
-        
+
         <div className="DarthVader boundary" style={{ borderColor: `${borderStateColor}` }}>
           <Typography variant="h6" style={{ textAlign: "center", color: "Green" }}>
             <div style={{ animation: "pulsate 0.5s infinite alternate", marginTop: "30px" }}>Time Remaining: {counter}</div>
 
-            <div className=' div-with-bg'>                    
+            <div className=' div-with-bg'>
               <div className='DarthVader' style={{ animation: "pulsate 0.5s infinite alternate" }}>Light Saber Points: {lightSaberPoints}</div>
             </div>
             <Button id="iosAccessSensor" onClick={askForSensorAccess} style={{ height: "50px" }}>Get Accelerometer Permissions</Button>
@@ -354,8 +354,8 @@ function App() {
       )}
 
       {showBoxContainer && (
-        
-        
+
+
         <Typography variant="h6" style={{ textAlign: "center", color: "Green" }}>
           <div className="box-container" style={{ width: "30vh", height: "50vh" }}>
             <div className="box" style={{ backgroundColor: `hsl(${boxRotation.hue}, 100%, 50%)`, transform: `${boxRotation.x} ${boxRotation.y} ${boxRotation.z}` }} />
@@ -365,9 +365,9 @@ function App() {
       )}
 
       {showReplay && (
-         <div className="DarthVader">
-        
-        <Button variant="contained" onClick={handleReplay} color="primary">Replay Movements</Button>
+        <div className="DarthVader">
+
+          <Button variant="contained" onClick={handleReplay} color="primary">Replay Movements</Button>
         </div>
       )}
     </div>
