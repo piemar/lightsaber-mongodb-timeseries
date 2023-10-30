@@ -26,7 +26,7 @@ function App() {
 
   const [replayData, setReplayData] = useState([]); // State to store retrieved replay data
   const [boxRotation, setBoxRotation] = useState({ x: 0, y: 0, z: 0, hue: 0 }); // State to store 3D box rotation angles
-  const [counter, setCounter] = useState(1);
+  const [counter, setCounter] = useState(30);
   const [dotPanelGamePlay, setDotPanelGamePlay] = useState(false);
   const [health, setHealth] = useState(100);
 
