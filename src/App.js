@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, CssBaseline, TextField, Typography, Container } from '@mui/material'; // Import Material-UI components
 import { Howl } from 'howler';
 import './App.css';
-
+import DarthVader from './DarthVader';
 
 
 function App() {
@@ -26,8 +26,11 @@ function App() {
 
   const [replayData, setReplayData] = useState([]); // State to store retrieved replay data
   const [boxRotation, setBoxRotation] = useState({ x: 0, y: 0, z: 0, hue: 0 }); // State to store 3D box rotation angles
-  const [counter, setCounter] = useState(30);
+  const [counter, setCounter] = useState(1);
   const [dotPanelGamePlay, setDotPanelGamePlay] = useState(false);
+  const [health, setHealth] = useState(100);
+
+
   let audio;
   const playSound = () => {
     if (audio === undefined) {
@@ -35,6 +38,7 @@ function App() {
         src: ['/lightsaber.mp3']
       });
     }
+    
     audio.play();
   };
   const userAgent = navigator.userAgent;
@@ -104,19 +108,30 @@ function App() {
       });
   };
 
+  const updateHealth = (h)=>{
+    if (h>0){
+      return (h-1);
+    }else{
+      handleReplay();      
+
+      return 0;
+    }
+  }
   const handleDeviceMotion = (event) => {
     var acceleration = "";
     let hueValue = 0;
     var lbswish = false;
+    
+    
     if (event.accelerationIncludingGravity) {
       // Get acceleration data from device
       acceleration = event.accelerationIncludingGravity;
       const threshold = 15;
       // If acceleration is above threshold, play sound
-
       if (Math.abs(acceleration.x) > threshold || Math.abs(acceleration.y) > threshold || Math.abs(acceleration.z) > threshold) {
         lbswish = true;
-        playSound();
+        playSound();             
+        setHealth((prevHealth) => updateHealth(prevHealth)  );
       }
 
     }
@@ -282,23 +297,29 @@ function App() {
     return () => {
       clearInterval(counterInterval);
     };
-  }, [counter, signUpForm, lightSaberPoints, showLightsaber, multiplierPoints, borderStateColor]);
+  },[ health,showBoxContainer,counter, signUpForm, lightSaberPoints, showLightsaber, multiplierPoints, borderStateColor]);
 
   return (
-    <div className="App">
+    <div className="App">    
+    {showLightsaber && (  
+      <DarthVader className="DarthVader" health={health}/>
+    )}
       <CssBaseline />
 
 
 
       {showLightsaber && (
-        <div className={`lightsaber 'pulsate'}`} style={{ backgroundColor: `hsl(${hue}, 100%, 50%)`, width: '100vw', height: '90vh' }}>
+          
+        <div className={`lightsaber 'pulsate'}`} style={{ backgroundColor: `hsl(${hue}, 100%, 50%)`, width: '100vw', height: '90vh' }}>          
         </div>
 
       )}
       {signUpForm && (
-        <Container component="main" maxWidth="xs">
+        
+        <Container component="main" maxWidth="xs">          
           <Typography component="h1" variant="h5" style={{ textAlign: "center" }}>
             Lightsaber Lores of MongoDB Time Series
+            
           </Typography>
           <form onSubmit={handleSubmit}>
             <TextField
@@ -318,28 +339,36 @@ function App() {
         </Container>
       )}
       {dotPanelGamePlay && (
-        <div className="boundary" style={{ borderColor: `${borderStateColor}` }}>
+        
+        <div className="DarthVader boundary" style={{ borderColor: `${borderStateColor}` }}>
           <Typography variant="h6" style={{ textAlign: "center", color: "Green" }}>
             <div style={{ animation: "pulsate 0.5s infinite alternate", marginTop: "30px" }}>Time Remaining: {counter}</div>
 
-            <div className='div-with-bg'>
-              <div className='content' style={{ animation: "pulsate 0.5s infinite alternate" }}>Light Saber Points: {lightSaberPoints}</div>
+            <div className=' div-with-bg'>                    
+              <div className='DarthVader' style={{ animation: "pulsate 0.5s infinite alternate" }}>Light Saber Points: {lightSaberPoints}</div>
             </div>
             <Button id="iosAccessSensor" onClick={askForSensorAccess} style={{ height: "50px" }}>Get Accelerometer Permissions</Button>
           </Typography>
           <div className="indicatorDot" style={{ left: "30%", top: "30%" }}></div>
         </div>
       )}
+
       {showBoxContainer && (
+        
+        
         <Typography variant="h6" style={{ textAlign: "center", color: "Green" }}>
           <div className="box-container" style={{ width: "30vh", height: "50vh" }}>
             <div className="box" style={{ backgroundColor: `hsl(${boxRotation.hue}, 100%, 50%)`, transform: `${boxRotation.x} ${boxRotation.y} ${boxRotation.z}` }} />
           </div>
         </Typography>
+
       )}
 
       {showReplay && (
+         <div className="DarthVader">
+        
         <Button variant="contained" onClick={handleReplay} color="primary">Replay Movements</Button>
+        </div>
       )}
     </div>
   )
