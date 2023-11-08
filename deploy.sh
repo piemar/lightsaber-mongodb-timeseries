@@ -22,7 +22,10 @@ configAppService='{
 }'
 configHosting='{
     "enabled": true,
-    "app_default_domain": "'$REALM_CLIENT_APP_ID.mongodbstitch.com'"
+    "app_default_domain": "'$REALM_CLIENT_APP_ID.mongodbstitch.com'",
+    "default_error_path": "/index.html",
+    "default_error_code": "200"
+
 }'
 
 realm-cli login -y --api-key="$ATLAS_PUBLIC_API_KEY" --private-api-key="$ATLAS_PRIVATE_API_KEY"

@@ -88,6 +88,10 @@ source env.var
 You need to manually enable hosting:
 https://www.mongodb.com/docs/atlas/app-services/hosting/enable-hosting/
 
+### Enable Single Page Application on App Services
+
+You need to manually enable single page application, go to hosting and then settings and configure Single Page Application and select index.html
+
 ### Access the application 
 You can now access the application from the endpoint described, in app/hosting/config.json   
 
