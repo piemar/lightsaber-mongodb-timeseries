@@ -28,7 +28,7 @@ function HomePage() {
   const [counter, setCounter] = useState(30);
   const [showBallContainer, setBallContainer] = useState(false);
   const [showBallGamePlay, setBallGamePlay] = useState(false);
-  const [health, setHealth] = useState(100);
+  //const [health, setHealth] = useState(100);
   const [showBallTimeout, setShowBallTimeout] = useState(false);
 
   let audio;
@@ -108,7 +108,7 @@ function HomePage() {
       });
   };
 
-  const updateHealth = (h) => {
+/*   const updateHealth = (h) => {
     if (h > 0) {
       return (h - 1);
     } else {
@@ -116,7 +116,7 @@ function HomePage() {
 
       return 0;
     }
-  }
+  } */
   const handleDeviceMotion = (event) => {
     var acceleration = "";
     let hueValue = 0;
@@ -131,7 +131,8 @@ function HomePage() {
       if (Math.abs(acceleration.x) > threshold || Math.abs(acceleration.y) > threshold || Math.abs(acceleration.z) > threshold) {
         lbswish = true;
         playSound();
-        setHealth((prevHealth) => updateHealth(prevHealth));
+        // Progress bar moved to DarthVaderPage, show lightsaber forever until progressbar on darthvader page is 0
+        //setHealth((prevHealth) => updateHealth(prevHealth));
       }
 
     }
@@ -312,7 +313,7 @@ function HomePage() {
     return () => {
       clearInterval(counterInterval);
     };
-  }, [health, showBoxContainer, counter, showBallTimeout,signUpForm, lightSaberPoints, showLightsaber, multiplierPoints, borderStateColor]);
+  }, [showBoxContainer, counter, showBallTimeout,signUpForm, lightSaberPoints, showLightsaber, multiplierPoints, borderStateColor]);
 
   return (
     <div className="App">

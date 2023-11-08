@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 export default function DarthVader(props) {
   const REALM_APP_ID = "starwars-lightsaber-timeseries-onvhi"
   const [health, setHealth] = useState(props.health);
-  const [data, setData] = useState(props.health);
+  //const [data, setData] = useState(props.health);
   useEffect(() => {
     const intervalId = setInterval(async () => {
       try {
@@ -11,12 +11,9 @@ export default function DarthVader(props) {
         if (!response.ok) {
           console.log(`HTTP error! status: ${response.status}`)
         }
-        const data2 = await response.json();
-        console.log(data2);
-        
-        const data={"deductAmount":0.1}
+        const data2 = await response.json();        
         // Assuming the response returns the amount to deduct
-        setHealth((currentHealth) => Math.max(currentHealth - data.deductAmount, 0));
+        setHealth((currentHealth) => Math.max(currentHealth - data2[0].numberOfHits/1000, 0));
       } catch (error) {
         console.error("Fetching error: ", error);
       }
