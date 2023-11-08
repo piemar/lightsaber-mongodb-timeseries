@@ -168,7 +168,7 @@ function App() {
 
       }
     }
-    sendOrientationData({ deviceInfo: deviceInfo, swosh: lbswish, orientation: { alpha: event.alpha, beta: event.beta, gamma: event.gamma, hue: hueValue }, ballGame: { lightSaberPoints: lightSaberPoints, indicatorDotPx: px, indicatorDotPy: py }, acceleration: { x: acceleration.x, y: acceleration.y, z: acceleration.z } });
+    sendOrientationData({ deviceInfo: deviceInfo, swosh: lbswish, orientation: { alpha: event.alpha, beta: event.beta, gamma: event.gamma, hue: hueValue }, ballGame: { active: showBoxContainer, lightSaberPoints: lightSaberPoints, indicatorDotPx: px, indicatorDotPy: py }, acceleration: { x: acceleration.x, y: acceleration.y, z: acceleration.z, acc: Math.abs(acceleration.x)+Math.abs(acceleration.y)+Math.abs(acceleration.z) }, lightsaber: showLightsaber });
 
 
   };
