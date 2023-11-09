@@ -353,7 +353,7 @@ function HomePage() {
       
       {showBallGamePlay && (
         <div className="DarthVader boundary holdgameplay" style={{ borderColor: `${borderStateColor}` }}>
-        <Typography variant="h6" style={{ textAlign: "center", color: "Green" }}>
+        <Typography variant="h6" style={{ textAlign: "center", color: "white" }}>
           <div style={{ animation: "pulsate 0.5s infinite alternate", marginTop: "30px" }}>Hold your device flat, game starts in 5 seconds</div>
         </Typography>
       </div>
@@ -362,7 +362,7 @@ function HomePage() {
       {showBallContainer && (
 
         <div className="DarthVader boundary" style={{ borderColor: `${borderStateColor}` }}>
-          <Typography variant="h6" style={{ textAlign: "center", color: "Green" }}>
+          <Typography variant="h6" style={{ textAlign: "center", color: "white" }}>
             <div style={{ animation: "pulsate 0.5s infinite alternate", marginTop: "30px" }}>Time Remaining: {counter}</div>
 
             <div className=' div-with-bg'>

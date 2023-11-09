@@ -12,8 +12,12 @@ export default function DarthVader(props) {
           console.log(`HTTP error! status: ${response.status}`)
         }
         const data2 = await response.json();        
+        if(data2.numberOfHits!==undefined){
+          console.log(data2.numberOfHits);
         // Assuming the response returns the amount to deduct
         setHealth((currentHealth) => Math.max(currentHealth - data2[0].numberOfHits/1000, 0));
+        }
+
       } catch (error) {
         console.error("Fetching error: ", error);
       }
