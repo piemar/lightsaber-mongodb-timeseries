@@ -342,6 +342,9 @@ function HomePage() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              InputLabelProps={{
+                style: { color: 'white' },
+              }}
             />
             <Button type="submit" fullWidth variant="contained" color="primary">
               Start
