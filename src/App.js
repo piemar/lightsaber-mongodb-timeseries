@@ -14,7 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home realm={REALM_APP_ID}/>} />
         <Route path="/boss" element={<DarthVader health="100" realm={REALM_APP_ID}/>} />
-        <Route path="/chart" element={<DashBoard realm={REALM_APP_ID}/>} />
+        <Route path="/dashboard" element={<DashBoard realm={REALM_APP_ID}/>} />
       </Routes>
     </Router>
   );
