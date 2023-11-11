@@ -6,4 +6,4 @@ description=$(realm-cli app describe --app $APPLICATION_NAME)
 APP_ID=$(echo $description | sed 's/^.*client_app_id": "\([^"]*\).*/\1/')
 echo "updating APP_ID to $APP_ID"
 sed -i -E 's/\(REALM_CLIENT_APP_ID=\).*/\1'$APP_ID'/g' env.var 
-sed -i -E 's/\(  const REALM_APP_ID = "\).*/\1'$APP_ID'";/g' src/HomePage.js 
+sed -i -E 's/\(  const REALM_APP_ID = "\).*/\1'$APP_ID'";/g' src/App.js 

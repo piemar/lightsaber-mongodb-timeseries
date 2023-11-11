@@ -31,5 +31,27 @@
         "create_user_on_auth": false,
         "disabled": false,
         "return_type": "JSON"
+    },
+    {
+        "route": "/devicetype",
+        "http_method": "*",
+        "function_name": "deviceType",
+        "validation_method": "NO_VALIDATION",
+        "respond_result": true,
+        "fetch_custom_user_data": false,
+        "create_user_on_auth": false,
+        "disabled": false,
+        "return_type": "JSON"
+    },
+    {
+        "route": "/tophits",
+        "http_method": "*",
+        "function_name": "topHits",
+        "validation_method": "NO_VALIDATION",
+        "respond_result": true,
+        "fetch_custom_user_data": false,
+        "create_user_on_auth": false,
+        "disabled": false,
+        "return_type": "JSON"
     }
 ]

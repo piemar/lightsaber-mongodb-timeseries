@@ -4,8 +4,8 @@ import { Howl } from 'howler';
 import './App.css';
 
 
-function HomePage() {
-  const REALM_APP_ID = "starwars-lightsaber-timeseries-onvhi"
+function HomePage(props) {
+  const REALM_APP_ID = props.realm;
   var px = 50; // Position x and y
   var py = 50;
   var vx = 0.0; // Velocity x and y
@@ -79,7 +79,7 @@ function HomePage() {
   };
 
   const deviceInfo = {
-    deviceType: getDevice(),
+    deviceType: "iphone", //getDevice(),
     browserType: getBrowser()
   };
 

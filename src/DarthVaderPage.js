@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 export default function DarthVader(props) {
-  const REALM_APP_ID = "starwars-lightsaber-timeseries-onvhi"
+  const REALM_APP_ID = props.realm;
   const [health, setHealth] = useState(props.health);
   //const [data, setData] = useState(props.health);
   useEffect(() => {
