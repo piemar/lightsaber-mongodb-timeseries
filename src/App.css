@@ -56,7 +56,23 @@
   margin: 5% auto;
   box-sizing: border-box;
   background-position: center;
-  background-image: url('./../public/dotbackground.jpeg');
+  background-image: url('./../public/darth-vader.gif');
+}
+.dot_darth_vader {
+  background-image: url('./../public/darth-vader.gif');
+  width: 90%; 
+  height: 90vh; 
+  background-size: cover; /* Ensure the background image covers the entire element */
+  background-position: center; /* Center the background image */
+  background-repeat: no-repeat; /* Do not repeat the background image */
+ 
+  width: 100vw; /* Make sure the element fills the viewport width */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white; 
+   
+  
 }
 .holdgameplay {
   position: relative; 
@@ -104,7 +120,7 @@
   
 }
 .AppDarthVader {
-  background-image: url('./../public/dotbackground.jpeg');
+  background-image: url('./../public/darth-vader.gif');
   background-size: cover; /* Ensure the background image covers the entire element */
   background-position: center; /* Center the background image */
   background-repeat: no-repeat; /* Do not repeat the background image */

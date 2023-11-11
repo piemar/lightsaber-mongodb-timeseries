@@ -364,7 +364,7 @@ function HomePage() {
       )}
       {showBallContainer && (
 
-        <div className="DarthVader boundary" style={{ borderColor: `${borderStateColor}` }}>
+        <div className="DarthVader boundary dot_darth_vader" style={{ borderColor: `${borderStateColor}` }}>
           <Typography variant="h6" style={{ textAlign: "center", color: "white" }}>
             <div style={{ animation: "pulsate 0.5s infinite alternate", marginTop: "30px" }}>Time Remaining: {counter}</div>
 
