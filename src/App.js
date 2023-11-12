@@ -12,7 +12,7 @@ import DeviceTypeChart from './charts/DeviceTypeChartPage';
 import LeaderBoardChart from './charts/LeaderBoardChartPage';
 
 function App() {
-  const REALM_APP_ID = "starwars-lightsaber-timeseries-ffzoo"  
+  const REALM_APP_ID = "starwars-lightsaber-timeseries-onvhi"  
   return (
     <Router>
       <Routes>
