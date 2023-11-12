@@ -17,7 +17,7 @@ export default function DarthVader(props) {
         const result = await response.json(); 
               
         if(result.numberOfHits!==undefined){
-          setHealth(Math.round(Math.max((0.4 - (result.numberOfHits / TOTAL_LIFE)) * 100, 0)));
+          setHealth(Math.round(Math.max((1 - (result.numberOfHits / TOTAL_LIFE)) * 100, 0)));
           if (health===0){
             clearInterval(intervalId);
             showProgressBar(false);
