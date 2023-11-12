@@ -6,9 +6,10 @@ const chartSetting = {
         label: 'DPS',
       },
     ],
-    width: 800,
+    
     height: 400,
     margin: { left: 200 }, // Adjust bottom margin
+    
   };    
 
   
