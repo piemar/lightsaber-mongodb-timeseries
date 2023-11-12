@@ -32,14 +32,20 @@ REALM_CLIENT_APP_ID=
 ```
 
 ## Create an New App in Atlas App Services
-You will need to create an App in Atlas services, here is how you do it using the Realm CLI. You can also do it using the UI.
+You will need to create an App in Atlas services, here is how you do it using the Realm CLI. You can also do it using the UI, or the setup.sh script, see below.
 
 ```
 source env.var
 realm-cli apps create -y -n "$APPLICATION_NAME" --project="$ATLAS_PROJECT_ID" --cluster="$ATLAS_CLUSTER_NAME"
 ```
 
-Once you have created the app you will need to get the client_app_id from the console output from the above command and update REALM_CLIENT_APP_ID in the env.var file.
+The setup.sh script will create the app, update the config files, and push the code. All that remains is to create the database (unless you set the ATLAS_URI parameter), "Enable hosting on App Services" below and "Enable Single Page Application on App Services".
+
+```
+./setup.sh
+```
+
+Once you have created the app you will need to get the client_app_id from the console output from the above command and update REALM_CLIENT_APP_ID in the env.var file (setup.sh will do this).
 
 Example:
 ```
@@ -52,7 +58,7 @@ REALM_CLIENT_APP_ID=starwars-lightsaber-timeseries-onvhi
 ```
 
 #### Update App.js
-Update in App.js file and the below field with your REALM_CLIENT_APP_ID that you have in the env.var file. 
+Update in App.js file and the below field with your REALM_CLIENT_APP_ID that you have in the env.var file (setup.sh will do this). 
 
 ```
 const REALM_APP_ID='starwars-lightsaber-timeseries-onvhi';
@@ -77,7 +83,7 @@ db.createCollection(
 ```
 ### Deploy application to App Services
 
-Run below command in root of repo, it will build the application and deploy it to App Services
+Run below command in root of repo, it will build the application and deploy it to App Services (setup.sh will do this).
 ```
 source env.var
 ./deploy.sh
