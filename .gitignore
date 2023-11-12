@@ -1,6 +1,9 @@
 .DS_Store
 env_local.var
 node_modules
+app/realm_config.json
+app/hosting/config.json
+app/data_sources/mongodb-atlas/config.json
 app/hosting/files/*.*
 app/hosting/files/static/*.*
 app/hosting/files/static/js/*.*
