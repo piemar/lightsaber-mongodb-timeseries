@@ -18,24 +18,25 @@ export default function BasicPie(props) {
   useEffect(() => {
     const intervalId = setInterval(async () => {
       try {
-        const response = await fetch(`https://data.mongodb-api.com/app/` + REALM_APP_ID + `/endpoint/devicetype`);
+        const response = await fetch(`https://data.mongodb-api.com/app/${REALM_APP_ID}/endpoint/devicetype`);
         if (!response.ok) {
           console.log(`HTTP error! status: ${response.status}`);
           return;
         }
         const newData = await response.json();
-        if(newData.length>0){
+        if (newData.length > 0) {
           setData(newData);
         }
-        
       } catch (error) {
         console.error("Fetching error: ", error);
       }
-    }, 500); // Every second
+    }, 2000); // Every 2 seconds
 
     return () => clearInterval(intervalId);
-  }, [REALM_APP_ID]); // Empty dependency array
-
+  }, [REALM_APP_ID]); // Dependency array
+  if (!Array.isArray(data) || data.length === 0) {
+    return <div>No data yet</div>;
+  }  
   return (
         <PieChart 
       series={[

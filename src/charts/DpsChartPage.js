@@ -1,35 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import { LineChart } from '@mui/x-charts/LineChart';
 export default function DPSChart(props) {
-  const [data, setData] = useState([{
-    "dps":2,
-    "date":"2023-11-08T11:50:10.000+00:00",
-    "AvgDps10":3,
-    "AvgDps100":2
-  }]); // Initial data
-
+  const [data, setData] = useState([]);
   const REALM_APP_ID = props.realm;
+
   useEffect(() => {
     const intervalId = setInterval(async () => {
       try {
-        const response = await fetch(`https://data.mongodb-api.com/app/` + REALM_APP_ID + `/endpoint/dps`);
+        const response = await fetch(`https://data.mongodb-api.com/app/${REALM_APP_ID}/endpoint/dps`);
         if (!response.ok) {
           console.log(`HTTP error! status: ${response.status}`);
           return;
         }
         const newData = await response.json();
-        if(newData.length>0){
+        if (Array.isArray(newData) && newData.length > 0) {
           setData(newData);
         }
-        
       } catch (error) {
         console.error("Fetching error: ", error);
       }
     }, 500); // Every second
-  
+
     return () => clearInterval(intervalId);
-  }, [REALM_APP_ID]); // Empty dependency array
-  
+  }, [REALM_APP_ID]);
+
+  // Check if data is not empty and is an array before rendering the chart
+  if (!Array.isArray(data) || data.length === 0) {
+    return <div>No data yet</div>;
+  }  
   return (
           <LineChart
             
