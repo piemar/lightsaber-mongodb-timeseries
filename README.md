@@ -80,7 +80,10 @@ db.createCollection(
        }
     }
 )
+
 ```
+
+
 ### Deploy application to App Services
 
 Run below command in root of repo, it will build the application and deploy it to App Services (setup.sh will do this).
@@ -144,3 +147,13 @@ npm run start:https
 6. **Data Transmission**: Device orientation data is continuously sent to the backend server via a Atlas Appservices endpoint (`/data`) in the form of a JSON object and stored in an Timeseries collection, `starwars.timeseries`
 
 7. **Replay**: User can replay session by pressing replay button. All records for the specific email will be requested using the Atlas App Services endpoint (`/session`) and will be replayed for user.
+
+## Cleanup
+When Darthvader has been defeated, you can delete the data in the timeseries collection so the progress bar will be at 100%
+```
+// Create Timeseries collection to be used to store device sensor data.
+use starwars
+// Create a MongoDB TimeSeries collection, that will store all the hints.
+db.timeseries.deleteMany({})
+
+```

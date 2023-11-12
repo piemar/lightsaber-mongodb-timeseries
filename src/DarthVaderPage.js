@@ -66,8 +66,8 @@ export default function DarthVader(props) {
     <div className="App">
 
     {progressBar && (
-    <div style={containerStyle} className="boundary lightsaber pulsate">
-      <div className="health-bar" style={healthBarStyle}>
+    <div style={containerStyle} className="boundary  ">
+      <div className="health-bar lightsaber   pulsate" style={healthBarStyle}>
         <div className="health" style={healthStyle}>
           {health}%
         </div>

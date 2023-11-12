@@ -8,22 +8,43 @@ exports = async function({ query, response }) {
         // Define the aggregation pipeline
         const pipeline = [
             {
-                $group: {
-                    _id: "$deviceInfo.deviceType",
-                    value: { $count: {} },
+              $group:
+                /**
+                 * _id: The id of the group.
+                 * fieldN: The first field name.
+                 */
+                {
+                  _id: "$email",
+                  device: {
+                    $last: "$deviceInfo.deviceType",
+                  },
                 },
             },
-            { $sort: { value: -1 } },
-            { $limit: 10 },
             {
-                $project: {
-                    id: "$_id",
-                    label: "$_id",
-                    value: 1,
-                    _id: 0,
+              $group: {
+                _id: "$device",
+                value: {
+                  $count: {},
                 },
+              },
             },
-        ];
+            {
+              $sort: {
+                value: -1,
+              },
+            },
+            {
+              $limit: 10,
+            },
+            {
+              $project: {
+                id: "$_id",
+                label: "$_id",
+                value: 1,
+                _id: 0,
+              },
+            },
+          ];
 
         // Execute the aggregation pipeline
         const result = await collection.aggregate(pipeline).toArray();
