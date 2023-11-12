@@ -1,5 +1,23 @@
 [
     {
+        "name": "topHits",
+        "private": false,
+        "run_as_system": true,
+        "disable_arg_logs": true
+    },
+    {
+        "name": "deviceType",
+        "private": false,
+        "run_as_system": true,
+        "disable_arg_logs": true
+    },
+    {
+        "name": "hits",
+        "private": false,
+        "run_as_system": true,
+        "disable_arg_logs": true
+    },
+    {
         "name": "save",
         "private": false,
         "run_as_system": true,
@@ -12,19 +30,7 @@
         "disable_arg_logs": true
     },
     {
-        "name": "hits",
-        "private": false,
-        "run_as_system": true,
-        "disable_arg_logs": true
-    },
-    {
-        "name": "topHits",
-        "private": false,
-        "run_as_system": true,
-        "disable_arg_logs": true
-    },
-    {
-        "name": "deviceType",
+        "name": "totalDPS",
         "private": false,
         "run_as_system": true,
         "disable_arg_logs": true
