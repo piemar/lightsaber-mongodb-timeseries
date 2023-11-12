@@ -11,33 +11,6 @@ const chartSetting = {
     margin: { left: 200 }, // Adjust bottom margin
   };    
 
-  const dataset = [
-    {
-        "value": 863,
-        "id": "pierre@thinkworks.se",
-        "label": "pierre@thinkworks.se"
-    },
-    {
-        "value": 207,
-        "id": "olle@jakobsdon.se",
-        "label": "olle@jakobsdon.se"
-    },
-    {
-        "value": 71,
-        "id": "lioupri@amazon.com",
-        "label": "lioupri@amazon.com"
-    },
-    {
-        "value": 32,
-        "id": "irene.pettersson@gmail.com",
-        "label": "irene.pettersson@gmail.com"
-    },
-    {
-        "value": 1,
-        "id": "grodanboll@gmail.com",
-        "label": "grodanboll@gmail.com"
-    }
-  ];
   
 const valueFormatter = (value) => `${value}`;
 export default function HorizontalBarChart(props) { 
@@ -61,7 +34,7 @@ export default function HorizontalBarChart(props) {
     }, 500); // Every second
 
     return () => clearInterval(intervalId);
-  }, []); // Empty dependency array
+  }, [REALM_APP_ID]); // Empty dependency array
 
   return (
     <BarChart

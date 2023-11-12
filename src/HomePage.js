@@ -46,11 +46,9 @@ function HomePage(props) {
     if (/android/i.test(userAgent)) {
       return 'Android';
     }
-
     if (/iPhone/i.test(userAgent)) {
       return 'iPhone';
     }
-
     return 'Unknown Device';
   };
 
@@ -79,34 +77,35 @@ function HomePage(props) {
   };
 
   const deviceInfo = {
-    deviceType: "iphone", //getDevice(),
+    deviceType: getDevice(),
     browserType: getBrowser()
   };
 
-  const sendOrientationData = (data) => {
+  const sendOrientationData = async (data) => {
     // Include email in the data to be sent
     const dataWithEmail = { ...data, email };
-
-    // Send device orientation data to Flask REST endpoint
-    // When running locally change to localhost,
-
-    fetch(`https://data.mongodb-api.com/app/` + REALM_APP_ID + "/endpoint/data", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(dataWithEmail),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        // Handle successful response here if needed
-      })
-      .catch((error) => {
-        console.error('Error sending data to DataAPI:', error);
+  
+    try {
+      // Send device orientation data to Flask REST endpoint
+      const response = await fetch(`https://data.mongodb-api.com/app/${REALM_APP_ID}/endpoint/data`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dataWithEmail),
       });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      // Handle successful response here if needed
+      
+    } catch (error) {
+      console.error('Error sending data to DataAPI:', error);
+    }
   };
+  
 
 /*   const updateHealth = (h) => {
     if (h > 0) {
@@ -222,24 +221,26 @@ function HomePage(props) {
     return () => clearTimeout(timeoutId);
   }, [showBallGamePlay])
 
-  const handleReplay = () => {
+  const handleReplay = async () => {
     window.removeEventListener("devicemotion", handleDeviceMotion, true);
     window.removeEventListener('deviceorientation', handleDeviceMotion);
     setShowLightsaber(false);
     setBoxContainer(true);
     setBallContainer(false);
-    // Fetch device movements data for the provided email from the backend
-    fetch(`https://data.mongodb-api.com/app/` + REALM_APP_ID + `/endpoint/replay?email=${email}`)
-      .then((response) => response.json())
-      .then((data) => {
+
+    try {
+        // Fetch device movements data for the provided email from the backend
+        const response = await fetch(`https://data.mongodb-api.com/app/${REALM_APP_ID}/endpoint/replay?email=${email}`);
+        const data = await response.json();
+
         setReplayData(data); // Store the retrieved data
         setReplay(true); // Start the replay animation
         updateBoxRotation(data);
-      })
-      .catch((error) => {
+    } catch (error) {
         console.error('Error retrieving replay data:', error);
-      });
-  };
+    }
+};
+
   const resetBoxRotation = () => {
     const rotationZ = `rotateZ(0deg)`;
     const rotationX = `rotateX(0deg)`;

@@ -1,21 +1,25 @@
-// This function is the endpoint's request handler.
-exports = function({ query, headers, body}, response) {
-    // Data can be extracted from the request as follows:
+// This function is the endpoint's request handler for storing data in a MongoDB collection.
+exports = async function({ body }, response) {
+    try {
+        // Parse the request body
+        const payload = JSON.parse(body.text());
+        // Add a timestamp to the payload
+        payload.timestamp = new Date();
 
-    // Query params, e.g. '?arg1=hello&arg2=world' => {arg1: "hello", arg2: "world"}
-    const {arg1, arg2} = query;
+        // Get the MongoDB collection
+        const db = context.services.get("mongodb-atlas").db("starwars");
+        const collection = db.collection("timeseries");
 
-    // Headers, e.g. {"Content-Type": ["application/json"]}
-    const contentTypes = headers["Content-Type"];
+        // Insert the payload into the collection
+        await collection.insertOne(payload);
 
-    // Raw request body (if the client sent one).
-    // This is a binary object that can be accessed as a string using .text()
-    const reqBody = body;
-    const payload = JSON.parse(reqBody.text());
-    payload.timestamp=new Date(Date.now());
-    const hint=context.services.get("mongodb-atlas").db("starwars").collection("timeseries").insertOne(payload);
-
-    response.setStatusCode(200);
-    response.setBody(`Successfully saved "someField" with _id:`);
-    return { msg: "finished!" };
+        // Send a success response
+        response.setStatusCode(200);
+        response.setBody(JSON.stringify({ msg: "Data stored successfully!" }));
+    } catch (error) {
+        // Handle any errors that might occur
+        console.error("Error in endpoint handler:", error);
+        response.setStatusCode(500);
+        response.setBody(JSON.stringify({ msg: "Error storing data", error: error.message }));
+    }
 };

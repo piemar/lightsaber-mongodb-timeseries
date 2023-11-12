@@ -1,10 +1,29 @@
-exports =  function({ query, headers, body}, response){
-  // This default function will get a value and find a document in MongoDB
-  // To see plenty more examples of what you can do with functions see: 
-  // https://www.mongodb.com/docs/atlas/app-services/functions/
+exports = async function({ query, response }) {
+    // Validate the presence of the email query
+    if (!query || !query.email) {
+        response.setStatusCode(400); // Bad Request
+        return { "error": "Email query parameter is missing" };
+    }
 
-  const queryPredicate={ "email": query.email}
-    results = context.services.get("mongodb-atlas").db("starwars").collection("timeseries").find(queryPredicate).toArray();
+    try {
+        // Access the MongoDB collection
+        const collection = context.services.get("mongodb-atlas").db("starwars").collection("timeseries");
 
-  return results;
+        // Define the query predicate
+        const queryPredicate = { "email": query.email };
+
+        // Execute the find operation
+        const result = await collection.find(queryPredicate).toArray();
+
+        // Check if any documents were found
+        if (result.length === 0) {
+            return { "message": "No documents found for the provided email" };
+        } else {
+            return result;
+        }
+    } catch (error) {
+        console.error("Database query error:", error);
+        response.setStatusCode(500); // Internal Server Error
+        return { "error": "Error executing database query", "details": error.message };
+    }
 };

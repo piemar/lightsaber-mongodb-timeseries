@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
-
+import { Typography } from '@mui/material'; // Import Material-UI components
+const TOTAL_LIFE = 8000;
 export default function DarthVader(props) {
   const REALM_APP_ID = props.realm;
   const [health, setHealth] = useState(props.health);
+  const [defeated, showDefeated] = useState(false);
+  const [progressBar, showProgressBar] = useState(true);
   //const [data, setData] = useState(props.health);
   useEffect(() => {
     const intervalId = setInterval(async () => {
@@ -11,11 +14,16 @@ export default function DarthVader(props) {
         if (!response.ok) {
           console.log(`HTTP error! status: ${response.status}`)
         }
-        const data2 = await response.json();        
-        if(data2.numberOfHits!==undefined){
-          console.log(data2.numberOfHits);
-        // Assuming the response returns the amount to deduct
-        setHealth((currentHealth) => Math.max(currentHealth - data2[0].numberOfHits/1000, 0));
+        const result = await response.json(); 
+              
+        if(result.numberOfHits!==undefined){
+          setHealth(Math.round(Math.max((0.4 - (result.numberOfHits / TOTAL_LIFE)) * 100, 0)));
+          if (health===0){
+            clearInterval(intervalId);
+            showProgressBar(false);
+            showDefeated(true);
+          }
+  
         }
 
       } catch (error) {
@@ -25,7 +33,7 @@ export default function DarthVader(props) {
 
     // Clear the interval when the component is unmounted
     return () => clearInterval(intervalId);
-  }, []);
+  }, [health]);
 
   // Inline styles for the health bar and the Darth Vader background
   const containerStyle = {
@@ -40,7 +48,7 @@ export default function DarthVader(props) {
     position: 'relative',
     width: '50%',
     height: '30px',
-    backgroundColor: '#555',
+    backgroundColor: '#555'
   };
 
   const healthStyle = {
@@ -51,17 +59,33 @@ export default function DarthVader(props) {
     color: 'white',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   };
 
   return (
-    
-    <div style={containerStyle} className='boundary lightsaber pulsate'>
+    <div className="App">
+
+    {progressBar && (
+    <div style={containerStyle} className="boundary lightsaber pulsate">
       <div className="health-bar" style={healthBarStyle}>
         <div className="health" style={healthStyle}>
           {health}%
         </div>
       </div>
+    </div>
+    )}
+    {defeated && (
+    <div style={containerStyle} className="boundary_defeated lightsaber">
+      <div >
+      <Typography variant="h4" style={{ textAlign: "center", color: "green" }}>
+          <div style={{ animation: "pulsate 0.5s infinite alternate", marginTop: "30px" }}>You defeated Darth Vader</div>
+        </Typography>
+
+        
+      </div>
+    </div>
+    )}
+
     </div>
   );
 }

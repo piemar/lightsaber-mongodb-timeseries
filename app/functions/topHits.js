@@ -1,56 +1,37 @@
-exports = function({ query, headers, body}, response) {
+exports = async function({ response }) {
+    try {
+        // Access the MongoDB collection
+        const collection = context.services.get("mongodb-atlas").db("starwars").collection("timeseries");
 
-    if(!query){
-      return({"error" : "No search query present"})
+        // Define the aggregation pipeline
+        const pipeline = [
+            { $match: { swosh: true } },
+            { 
+                $group: {
+                    _id: "$email",
+                    value: { $count: {} }
+                }
+            },
+            { $sort: { value: -1 } },
+            { $limit: 10 },
+            { 
+                $project: {
+                    id: "$_id",
+                    label: "$_id",
+                    value: 1,
+                    _id: 0
+                }
+            }
+        ];
+
+        // Execute the aggregation pipeline
+        const result = await collection.aggregate(pipeline).toArray();
+
+        // Return the result
+        return result;
+    } catch (error) {
+        console.error("Aggregation Error:", error);
+        response.setStatusCode(500); // Internal Server Error
+        return { "error": "Error executing aggregation", "details": error.message };
     }
-    // Querying a mongodb service:
-    return context.services.get("mongodb-atlas").db("starwars").collection("timeseries").aggregate(
-[
-  {
-    $match:
-      /**
-       * query: The query in MQL.
-       */
-      {
-        swosh: true,
-      },
-  },
-  {
-    $group:
-      /**
-       * _id: The id of the group.
-       * fieldN: The first field name.
-       */
-      {
-        _id: "$email",
-        value: {
-          $count: {},
-        },
-      },
-  },
-  {
-    $sort:
-      /**
-       * Provide any number of field/order pairs.
-       */
-      {
-        value: -1,
-      },
-  },
-  {
-    $limit:
-      /**
-       * Provide the number of documents to limit.
-       */
-      10,
-  },
-  {
-    $project: {
-      id: "$_id",
-      label: "$_id",
-      value: 1,
-      _id: 0,
-    },
-  },
-]);
 };

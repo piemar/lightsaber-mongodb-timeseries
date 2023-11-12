@@ -3,7 +3,12 @@ import { PieChart, pieArcLabelClasses } from '@mui/x-charts/PieChart';
 
 export default function BasicPie(props) {
   const REALM_APP_ID = props.realm;
-  const [data, setData] = useState([{ id: 0, value: 10, label: '' }]); // Initial data
+  const [data, setData] = useState([{ id: 0, value: 10, label: '--' }]); // Initial data
+  const TOTAL = data.map((item) => item.value).reduce((a, b) => a + b, 0);
+  const getArcLabel = (params) => {    
+    const percent = params.value / TOTAL;
+    return `${(percent * 100).toFixed(0)}% ${params.label}`;
+  };
   const sizing = {
     margin: { right: -120 },
     width: 600,
@@ -11,13 +16,7 @@ export default function BasicPie(props) {
     legend: { hidden: true }
     
   };
-  const TOTAL = data.map((item) => item.value).reduce((a, b) => a + b, 0);
 
-  const getArcLabel = (params) => {
-    
-    const percent = params.value / TOTAL;
-    return `${(percent * 100).toFixed(0)}% ${params.label}`;
-  };
   
   useEffect(() => {
     const intervalId = setInterval(async () => {
@@ -28,14 +27,17 @@ export default function BasicPie(props) {
           return;
         }
         const newData = await response.json();
-        setData(newData);
+        if(newData.length>0){
+          setData(newData);
+        }
+        
       } catch (error) {
         console.error("Fetching error: ", error);
       }
     }, 500); // Every second
 
     return () => clearInterval(intervalId);
-  }, []); // Empty dependency array
+  }, [REALM_APP_ID]); // Empty dependency array
 
   return (
 
@@ -59,5 +61,6 @@ export default function BasicPie(props) {
       }}
       {...sizing}
     />    
+    
   );
 }

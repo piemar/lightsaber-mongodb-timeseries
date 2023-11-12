@@ -58,6 +58,16 @@
   background-position: center;
   background-image: url('./../public/darth-vader.gif');
 }
+.boundary_defeated {
+  position: relative; 
+  border: 10px solid rgb(101, 238, 9); 
+  width: 90%; 
+  height: 90vh; 
+  margin: 5% auto;
+  box-sizing: border-box;
+  background-position: center;
+  background-image: url('./../public/defeated.gif');
+}
 .dot_darth_vader {
   background-image: url('./../public/darth-vader.gif');
   width: 90%; 

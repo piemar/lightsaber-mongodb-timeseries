@@ -7,6 +7,7 @@ import {
 import Home from './HomePage'; 
 import DarthVader from './DarthVaderPage'; 
 import DashBoard from './DashBoardPage'; 
+
 function App() {
   const REALM_APP_ID = "starwars-lightsaber-timeseries-onvhi"  
   return (
