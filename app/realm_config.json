@@ -1,7 +1,0 @@
-{
-    "config_version": 20210101,
-    "app_id": "starwars-lightsaber-timeseries-onvhi",
-    "name": "starwars-lightsaber-timeseries",
-    "location": "US-VA",
-    "deployment_model": "GLOBAL"
-}
