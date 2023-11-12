@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { PieChart, pieArcLabelClasses } from '@mui/x-charts/PieChart';
-
 export default function BasicPie(props) {
   const REALM_APP_ID = props.realm;
   const [data, setData] = useState([{ id: 0, value: 10, label: '--' }]); // Initial data
@@ -10,9 +9,7 @@ export default function BasicPie(props) {
     return `${(percent * 100).toFixed(0)}% ${params.label}`;
   };
   const sizing = {
-    margin: { right: -120 },
-    width: 600,
-    height: 500,
+    height: 400, margin: { right: 5 },
     legend: { hidden: true }
     
   };
@@ -40,15 +37,14 @@ export default function BasicPie(props) {
   }, [REALM_APP_ID]); // Empty dependency array
 
   return (
-
-   <PieChart
+        <PieChart 
       series={[
         {
-
           data,
           arcLabel: getArcLabel,
-          outerRadius:190,
+          outerRadius:180,
           innerRadius: 20,
+          
           
           
         },
@@ -61,6 +57,5 @@ export default function BasicPie(props) {
       }}
       {...sizing}
     />    
-    
   );
 }

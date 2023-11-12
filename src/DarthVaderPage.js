@@ -33,7 +33,7 @@ export default function DarthVader(props) {
 
     // Clear the interval when the component is unmounted
     return () => clearInterval(intervalId);
-  }, [health]);
+  }, [health, REALM_APP_ID]);
 
   // Inline styles for the health bar and the Darth Vader background
   const containerStyle = {

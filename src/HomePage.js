@@ -329,12 +329,12 @@ function HomePage(props) {
       {signUpForm && (
 
         <Container component="main" maxWidth="xs">
-          <Typography component="h1" variant="h5" style={{ textAlign: "center" }}>
+          <Typography component="h1" variant="h5" style={{ textAlign: "center",color:"white"}}>
             Lightsaber Lores of MongoDB Time Series
 
           </Typography>
           <form onSubmit={handleSubmit}>
-            <TextField
+            <TextField 
               variant="outlined"
               margin="normal"
               required
@@ -344,6 +344,9 @@ function HomePage(props) {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               InputLabelProps={{
+                style: { color: 'white' },
+              }}
+              InputProps={{
                 style: { color: 'white' },
               }}
             />
