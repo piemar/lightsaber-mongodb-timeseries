@@ -17,7 +17,7 @@ exports = async function({ body }, response) {
         if (payload.swosh==true) {
             const view = db.collection("hits")
             secondbucket= new Date(new Date().setMilliseconds(0));
-            await view.updateOne({email: payload.email, timestamp: secondbucket},{$inc: {"hits":1}}, {upsert:true})
+            await view.updateOne({email: payload.email, timestamp: secondbucket},{$inc: {"swosh":1}}, {upsert:true})
         }
 
         // Send a success response
