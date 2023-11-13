@@ -25,7 +25,7 @@ export default function DashBoard(props) {
           columns={{ xs: 2, sm: 8, md: 12 }}
         >
           <Grid xs={2} sm={4} md={6} key="1">
-            <Item>Damage Per Second<DeviceTypeChart realm={REALM_APP_ID} /></Item>
+            <Item>Lightsaber type<DeviceTypeChart realm={REALM_APP_ID} /></Item>
           </Grid>
           <Grid xs={2} sm={4} md={6} key="2">
             <Item>&nbsp;<LeaderBoardChart realm={REALM_APP_ID} /></Item>

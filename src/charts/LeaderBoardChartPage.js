@@ -3,7 +3,7 @@
   const chartSetting = {
       xAxis: [
         {
-          label: 'DPS',
+          label: 'Damage',
         },
       ],
       

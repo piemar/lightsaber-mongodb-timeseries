@@ -75,7 +75,7 @@ export default function DarthVader(props) {
     </div>
     )}
     {defeated && (
-    <div style={containerStyle} className="boundary_defeated lightsaber">
+    <div style={containerStyle} className="boundary_defeated ">
       <div >
       <Typography variant="h4" style={{ textAlign: "center", color: "green" }}>
           <div style={{ animation: "pulsate 0.5s infinite alternate", marginTop: "30px" }}>You defeated Darth Vader</div>
