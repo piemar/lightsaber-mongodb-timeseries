@@ -34,9 +34,9 @@ export default function DPSChart(props) {
             height={400}
             
             series={[
-              { data: data.map(item => item.dps), label: 'DPS', yAxisKey: 'leftAxisId' },
-              { data: data.map(item => item.AvgDps10), label: 'AverageDPS10', yAxisKey: 'leftAxisId' },
-              { data: data.map(item => item.AvgDps100), label: 'AverageDPS100', yAxisKey: 'leftAxisId' }
+              { data: data.map(item => item.dps), label: 'DPS', yAxisKey: 'leftAxisId',showMark: false },
+              { data: data.map(item => item.AvgDps10), label: 'AverageDPS10', yAxisKey: 'leftAxisId',showMark: false },
+              { data: data.map(item => item.AvgDps100), label: 'AverageDPS100', yAxisKey: 'leftAxisId',showMark: false }
             ]}
             xAxis={[{ scaleType: 'point', data: data.map(item => item.date) }]}
             yAxis={[{ id: 'leftAxisId' }, { id: 'rightAxisId' }]}

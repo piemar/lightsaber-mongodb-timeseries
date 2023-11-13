@@ -6,6 +6,12 @@
         "disable_arg_logs": true
     },
     {
+        "name": "totalDPS",
+        "private": false,
+        "run_as_system": true,
+        "disable_arg_logs": true
+    },
+    {
         "name": "deviceType",
         "private": false,
         "run_as_system": true,
@@ -30,7 +36,7 @@
         "disable_arg_logs": true
     },
     {
-        "name": "totalDPS",
+        "name": "reset",
         "private": false,
         "run_as_system": true,
         "disable_arg_logs": true

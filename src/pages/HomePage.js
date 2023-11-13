@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Button, CssBaseline, TextField, Typography, Container } from '@mui/material'; // Import Material-UI components
+import { Button, CssBaseline } from '@mui/material'; // Import Material-UI components
+import {UseHealth,ProgressBarComponent} from '../components/UseHealth';
+import LightSaber from '../components/LightSaber';
+import SignUpForm from '../components/SignUpForm';
+import BallGamePlayInformation from '../components/BallGamePlayInformation';
+import ReplayGamePlay from '../components/ReplayGamePlay';
+import BallGamePlay from '../components/BallGamePlay';
 import { Howl } from 'howler';
-import './App.css';
-
-
+import './../App.css';
 function HomePage(props) {
+  const { health } = UseHealth(props.realm, props.health, props.shouldPulsate);  
   const REALM_APP_ID = props.realm;
   var px = 50; // Position x and y
   var py = 50;
@@ -18,7 +23,7 @@ function HomePage(props) {
   const [lightSaberPoints, setLightSaberPoints] = useState(500);
   const [email, setEmail] = useState(''); // State for email input
   const [showLightsaber, setShowLightsaber] = useState(false); // State to control lightsaber visibility
-  const [showBoxContainer, setBoxContainer] = useState(false); // State to control for replay container
+  const [showReplayGamePlay, setBoxContainer] = useState(false); // State to control for replay container
   const [showReplay, setReplay] = useState(false); // State to control lightsaber visibility
   const [signUpForm, setSignUpForm] = useState(true); // State to control lightsaber visibility
   const [hue, setHue] = useState(0); // Initialize hue to 0
@@ -26,8 +31,8 @@ function HomePage(props) {
   const [replayData, setReplayData] = useState([]); // State to store retrieved replay data
   const [boxRotation, setBoxRotation] = useState({ x: 0, y: 0, z: 0, hue: 0 }); // State to store 3D box rotation angles
   const [counter, setCounter] = useState(30);
-  const [showBallContainer, setBallContainer] = useState(false);
-  const [showBallGamePlay, setBallGamePlay] = useState(false);
+  const [showBallGamePlay, setBallContainer] = useState(false);
+  const [showBallGamePayInformation, setBallGamePlay] = useState(false);
   //const [health, setHealth] = useState(100);
   const [showBallTimeout, setShowBallTimeout] = useState(false);
 
@@ -130,8 +135,6 @@ function HomePage(props) {
       if (Math.abs(acceleration.x) > threshold || Math.abs(acceleration.y) > threshold || Math.abs(acceleration.z) > threshold) {
         lbswish = true;
         playSound();
-        // Progress bar moved to DarthVaderPage, show lightsaber forever until progressbar on darthvader page is 0
-        //setHealth((prevHealth) => updateHealth(prevHealth));
       }
 
     }
@@ -211,7 +214,7 @@ function HomePage(props) {
 
   useEffect(() => {
     let timeoutId;
-    if (showBallGamePlay) {
+    if (showBallGamePayInformation) {
       timeoutId = setTimeout(() => {
         setBallContainer(true);
         setBallGamePlay(false); // Hide the ball game section after 5 seconds
@@ -219,7 +222,7 @@ function HomePage(props) {
       }, 5000);
     }
     return () => clearTimeout(timeoutId);
-  }, [showBallGamePlay])
+  }, [showBallGamePayInformation])
 
   const handleReplay = async () => {
     window.removeEventListener("devicemotion", handleDeviceMotion, true);
@@ -292,8 +295,6 @@ function HomePage(props) {
     }
   };
 
-
-
   useEffect(() => {
     let counterInterval;
     if (counter > 0 && !signUpForm && showBallTimeout) {  // Ensure counter only starts if the signUpForm is not visible
@@ -307,108 +308,41 @@ function HomePage(props) {
     } else if (counter <= 0) {
       clearInterval(counterInterval);
       setBallContainer(false);
-      if (!showBoxContainer) {
+      if (!showReplayGamePlay) {
         setShowLightsaber(true);  // Show the lightsaber if counter reaches 0 and dot is within borders
       }
     }
     return () => {
       clearInterval(counterInterval);
     };
-  }, [showBoxContainer, counter, showBallTimeout,signUpForm, lightSaberPoints, showLightsaber, multiplierPoints, borderStateColor]);
+  }, [showReplayGamePlay, counter, showBallTimeout,signUpForm, lightSaberPoints, showLightsaber, multiplierPoints, borderStateColor]);
 
   return (
+
     <div className="App">
+
       <CssBaseline />
-
-      {showLightsaber && (
-
-        <div className={`lightsaber 'pulsate'}`} style={{ backgroundColor: `hsl(${hue}, 100%, 50%)`, width: '100vw', height: '90vh' }}>
-        </div>
-
-      )}
-      {signUpForm && (
-
-        <Container component="main" maxWidth="xs">
-          <Typography component="h1" variant="h5" style={{ textAlign: "center",color:"white"}}>
-            Lightsaber Lores of MongoDB Time Series
-
-          </Typography>
-          <form onSubmit={handleSubmit}>
-            <TextField 
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              label="Email Address"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              InputLabelProps={{
-                style: { color: 'white' },
-              }}
-              InputProps={{
-                style: { color: 'white' },
-              }}
-            />
-            <Button type="submit" fullWidth variant="contained" color="primary">
-              Start
-            </Button>
-          </form>
-        </Container>
-      )}
-      
-      
+      {!signUpForm && !showBallGamePayInformation && <ProgressBarComponent health={health } shouldPulsate={false} />}
+      {showLightsaber && <LightSaber hue={hue} />}
+      {signUpForm && <SignUpForm email={email} setEmail={setEmail} handleSubmit={handleSubmit} />}
+      {showBallGamePayInformation && <BallGamePlayInformation borderStateColor={borderStateColor} />}
+      {showReplayGamePlay && <ReplayGamePlay boxRotation={boxRotation} />}
       {showBallGamePlay && (
-        <div className="DarthVader boundary holdgameplay" style={{ borderColor: `${borderStateColor}` }}>
-        <Typography variant="h6" style={{ textAlign: "center", color: "white" }}>
-          <div style={{ animation: "pulsate 0.5s infinite alternate", marginTop: "30px" }}>Hold your device flat, game starts in 5 seconds</div>
-        </Typography>
-      </div>
-
-      )}
-      {showBallContainer && (
-
-        <div className="DarthVader boundary dot_darth_vader" style={{ borderColor: `${borderStateColor}` }}>
-          <Typography variant="h6" style={{ textAlign: "center", color: "white" }}>
-            <div style={{ animation: "pulsate 0.5s infinite alternate", marginTop: "30px" }}>Time Remaining: {counter}</div>
-
-            <div className=' div-with-bg'>
-              <div className='DarthVader' style={{ animation: "pulsate 0.5s infinite alternate" }}>Light Saber Points: {lightSaberPoints}</div>
-            </div>
-            <Button id="iosAccessSensor" onClick={askForSensorAccess} style={{ height: "50px" }}>Get Accelerometer Permissions</Button>
-          </Typography>
-          <div className="indicatorDot" style={{ left: "30%", top: "30%" }}></div>
-        </div>
-      )}
-
-      {showBoxContainer && (
-
-
-      <Typography variant="h6" style={{ textAlign: "center", color: "Green" }}>
-        <div className="box-container" style={{ width: "30vh", height: "50vh" }}>
-          <div className="box" style={{ backgroundColor: `hsl(${boxRotation.hue}, 100%, 50%)`, transform: `${boxRotation.x} ${boxRotation.y} ${boxRotation.z}` }} />
-        </div>
-      </Typography>
-
-      )}
-
-      {showBoxContainer && (
-
-
-        <Typography variant="h6" style={{ textAlign: "center", color: "Green" }}>
-          <div className="box-container" style={{ width: "30vh", height: "50vh" }}>
-            <div className="box" style={{ backgroundColor: `hsl(${boxRotation.hue}, 100%, 50%)`, transform: `${boxRotation.x} ${boxRotation.y} ${boxRotation.z}` }} />
-          </div>
-        </Typography>
-
-      )}
-
+                <BallGamePlay
+                    borderColor={borderStateColor}
+                    counter={counter}
+                    lightSaberPoints={lightSaberPoints}
+                    askForSensorAccess={askForSensorAccess} // Make sure this function is defined in HomePage
+                />
+            )}
+      
       {showReplay && (
         <div className="DarthVader">
 
           <Button variant="contained" onClick={handleReplay} color="primary">Replay Movements</Button>
         </div>
-      )}
+      )}      
+
     </div>
   )
 }

@@ -62,6 +62,7 @@
   position: relative; 
   border: 10px solid rgb(101, 238, 9); 
   width: 90%; 
+  color: turquoise;
   height: 90vh; 
   margin: 5% auto;
   box-sizing: border-box;

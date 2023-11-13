@@ -4,15 +4,15 @@ import {
   Routes,
   Route
 } from "react-router-dom";
-import Home from './HomePage'; 
-import DarthVader from './DarthVaderPage'; 
-import DashBoard from './DashBoardPage'; 
+import Home from './pages/HomePage'; 
+import DarthVader from './pages/DarthVaderPage'; 
+import DashBoard from './pages/DashBoardPage'; 
 import DPSChart from "./charts/DpsChartPage";
 import DeviceTypeChart from './charts/DeviceTypeChartPage';
 import LeaderBoardChart from './charts/LeaderBoardChartPage';
 
 function App() {
-  const REALM_APP_ID = "starwars-lightsaber-timeseries-onvhi"  
+  const REALM_APP_ID = "starwars-lightsaber-timeseries-ffzoo"  
   return (
     <Router>
       <Routes>
