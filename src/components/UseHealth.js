@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const TOTAL_LIFE = 8000;
+const TOTAL_LIFE = 100000;
 export const ProgressBarComponent =  ({ health, shouldPulsate }) => {
   const healthBarStyle = {
     position: 'relative',

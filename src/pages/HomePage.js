@@ -322,7 +322,7 @@ function HomePage(props) {
     <div className="App">
 
       <CssBaseline />
-      {!signUpForm && !showBallGamePayInformation && <ProgressBarComponent health={health } shouldPulsate={false} />}
+      
       {showLightsaber && <LightSaber hue={hue} />}
       {signUpForm && <SignUpForm email={email} setEmail={setEmail} handleSubmit={handleSubmit} />}
       {showBallGamePayInformation && <BallGamePlayInformation borderStateColor={borderStateColor} />}
