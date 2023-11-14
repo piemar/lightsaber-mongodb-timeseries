@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Button, CssBaseline } from '@mui/material'; // Import Material-UI components
-import {UseHealth,ProgressBarComponent} from '../components/UseHealth';
 import LightSaber from '../components/LightSaber';
 import SignUpForm from '../components/SignUpForm';
 import BallGamePlayInformation from '../components/BallGamePlayInformation';
@@ -9,7 +8,6 @@ import BallGamePlay from '../components/BallGamePlay';
 import { Howl } from 'howler';
 import './../App.css';
 function HomePage(props) {
-  const { health } = UseHealth(props.realm, props.health, props.shouldPulsate);  
   const REALM_APP_ID = props.realm;
   var px = 50; // Position x and y
   var py = 50;
