@@ -17,7 +17,7 @@ configAppService='{
     "config_version": 20210101,
     "app_id": "'$REALM_CLIENT_APP_ID'",
     "name": "'$APPLICATION_NAME'",
-    "location": "US-VA",
+    "location": "IE",
     "deployment_model": "GLOBAL"
 }'
 configHosting='{
