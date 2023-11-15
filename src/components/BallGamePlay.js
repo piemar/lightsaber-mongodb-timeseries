@@ -14,9 +14,7 @@ const BallGaamePlay = ({ borderColor, counter, lightSaberPoints, askForSensorAcc
                         Light Saber Points: {lightSaberPoints}
                     </div>
                 </div>
-                <Button id="iosAccessSensor" onClick={askForSensorAccess} style={{ height: "50px" }}>
-                    Get Accelerometer Permissions
-                </Button>
+                <Button variant="contained" onClick={askForSensorAccess} color="primary">Ask for sensor</Button>
             </Typography>
             <div className="indicatorDot" style={{ left: "30%", top: "30%" }}></div>
         </div>
