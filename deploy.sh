@@ -29,9 +29,10 @@ configHosting='{
 }'
 
 realm-cli login -y --api-key="$ATLAS_PUBLIC_API_KEY" --private-api-key="$ATLAS_PRIVATE_API_KEY"
+mkdir -p app/data_sources/mongodb-atlas
+mkdir -p app/hosting/files
 cp -vaR build/ app/hosting/files
 cd app
-mkdir -p data_sources/mongodb-atlas
 echo "$configHosting" > hosting/config.json
 echo "$configAppService" > realm_config.json
 echo "$configDataSource" > "data_sources/mongodb-atlas/config.json"
