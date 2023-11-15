@@ -124,53 +124,53 @@ function HomePage(props) {
     let hueValue = 0;
     var lbswish = false;
 
-
-    if (event.accelerationIncludingGravity) {
-      // Get acceleration data from device
-      acceleration = event.accelerationIncludingGravity;
-      const threshold = 15;
-      // If acceleration is above threshold, play sound
-      if (Math.abs(acceleration.x) > threshold || Math.abs(acceleration.y) > threshold || Math.abs(acceleration.z) > threshold) {
-        lbswish = true;
-        playSound();
-      }
-
-    }
-
+    
     if (typeof event.beta !== 'undefined' && typeof event.gamma !== 'undefined') {
       const frontToBack_degrees = event.beta;
       const leftToRight_degrees = event.gamma;
       hueValue = (event.alpha + 360) % 360; // Ensure the hue is within 0-360 degrees
       setHue(hueValue);
-
+      
       // Update velocity according to how tilted the phone is
       // Since phones are narrower than they are long, double the increase to the x velocity
       vx = vx + leftToRight_degrees * updateRate * 2;
       vy = vy + frontToBack_degrees * updateRate;
-
+      
       // Update position and clip it to bounds
       px = px + vx * .5;
       if (px > 98 || px < 0) {
         px = Math.max(0, Math.min(98, px)) // Clip px between 0-98
         vx = 0;
       }
-
+      
       py = py + vy * .5;
       if (py > 98 || py < 0) {
         py = Math.max(0, Math.min(98, py)) // Clip py between 0-98
         vy = 0;
       }
-
+      
       const dot = document.getElementsByClassName("indicatorDot")[0]
       if (dot !== undefined) {
         dot.setAttribute('style', "left:" + (px) + "%;" +
-          "top:" + (py) + "%;");
+        "top:" + (py) + "%;");
         dotWithinBorders(px, py);
-
+        
       }
     }
-    sendOrientationData({ deviceInfo: deviceInfo, swosh: lbswish, orientation: { alpha: event.alpha, beta: event.beta, gamma: event.gamma, hue: hueValue }, ballGame: { lightSaberPoints: lightSaberPoints, indicatorDotPx: px, indicatorDotPy: py }, acceleration: { x: acceleration.x, y: acceleration.y, z: acceleration.z } });
-
+    
+        if (event.accelerationIncludingGravity) {
+          // Get acceleration data from device
+          acceleration = event.accelerationIncludingGravity;
+          const threshold = 15;
+          // If acceleration is above threshold, play sound
+          if (Math.abs(acceleration.x) > threshold || Math.abs(acceleration.y) > threshold || Math.abs(acceleration.z) > threshold) {
+            lbswish = true;
+            playSound();
+            sendOrientationData({ deviceInfo: deviceInfo, swosh: lbswish, orientation: { alpha: event.alpha, beta: event.beta, gamma: event.gamma, hue: hueValue }, ballGame: { lightSaberPoints: lightSaberPoints, indicatorDotPx: px, indicatorDotPy: py }, acceleration: { x: acceleration.x, y: acceleration.y, z: acceleration.z } });
+          }
+    
+        }
+    
 
   };
 
